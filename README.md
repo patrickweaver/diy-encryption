@@ -1,7 +1,4 @@
-# Python experiment
+# encryption-flask
+A flask website for encrypting messages with different python algorithms
 
-This is the base HyperDev app, rewritten in Python using Flask
-
-# Good to know
-
-- requirements.txt holds your dependencies, they are installed with pip
+Mouse 2017
