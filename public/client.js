@@ -14,36 +14,15 @@ $(function() {
       $('<li>' + dream + '</li>').appendTo('ul#dreams');
     });
   });
-  
-  $.get('/messages', function(data) {
-    data.messages.forEach(function(message) {
-      $('<li>' + message + '</li>').appendTo('ul#messages');
-    });
-  });
 
-  $('form#dream').submit(function(event) {
+  $('form').submit(function(event) {
     event.preventDefault();
-    var dream = $('#dream-input').val();
-    console.log("DREAM: " + dream);
+    var dream = $('input').val();
     if (dream.length === 0) {
       return;
     }
     $.post('/dreams?' + $.param({dream: dream}), function() {
       $('<li>' + dream + '</li>').appendTo('ul#dreams');
-      $('input').val('');
-      $('input').focus();
-    });
-  });
-    
-  $('form#message').submit(function(event) {
-    event.preventDefault();
-    var message = $('#message-input').val();
-    console.log(message);
-    if (message.length === 0) {
-      return;
-    }
-    $.post('/offset?' + $.param({message: message}), function() {
-      $('<li>' + message + '</li>').appendTo('ul#messages');
       $('input').val('');
       $('input').focus();
     });

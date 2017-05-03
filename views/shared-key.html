@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Python Encryption: Offset</title>
+    <title>Python Encryption: Shared Key</title>
     <meta name="description" content="A cool thing made with HyperDev">
     <link id="favicon" rel="icon" href="https://hyperweb.space/favicon.ico" type="image/x-icon">
     <meta charset="utf-8">
@@ -12,29 +12,31 @@
   <body>
     <header>
       <h1>
-        Python Encryption: Offset
+        Python Encryption: Shared Key
       </h1>
     </header>
 
     <main>
-      <form action="/offset/encrypt">
+      <form action="/shared-key/encrypt">
         <label>Message to Encrypt:</label>
         <br>
         <textarea id="encrypt-message" name="message"></textarea>
         <br>
-        <input type="number" id="encrypt-offset" name="offset">
+        <label>Key:</label>
+        <input type="text" id="encrypt-shared-key" name="key">
         <br>
         <button value="submit">Encrypt</button>
         
       </form>
       <br>
       <br>
-      <form action="/offset/decrypt">
+      <form action="/shared-key/decrypt">
         <label>Message to Decrypt:</label>
         <br>
         <textarea id="decrypt-message" name="message"></textarea>
         <br>
-        <input type="number" id="decrypt-offset" name="offset">
+        <label>Key:</label>
+        <input type="text" id="decrypt-shared-key" name="key">
         <br>
         <button value="submit">Decrypt</button>
  
