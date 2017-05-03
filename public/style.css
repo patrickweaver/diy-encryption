@@ -79,3 +79,36 @@ footer > a {
 .nicejob {
   text-decoration: line-through;
 }
+
+
+#primes-under-50 li {
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  border: 2px solid black;
+  background-color: #F9D0C2;
+  border-radius: 25px;
+  padding: 9px;
+  text-align: center;
+  cursor: pointer;
+}
+
+#primes-under-50 li.prime1 {
+  background-color: #FF3333;
+}
+
+#primes-under-50 li.prime2 {
+  background-color: #FF3333;
+}
+
+input#prime1 {
+  display: none;
+}
+
+input#prime2 {
+  display: none;
+}
+
+form#pick-primes {
+  display: none;
+}

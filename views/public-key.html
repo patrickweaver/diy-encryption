@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Python Encryption: Public Key</title>
+    <meta name="description" content="A cool thing made with HyperDev">
+    <link id="favicon" rel="icon" href="https://hyperweb.space/favicon.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <header>
+      <h1>
+        Python Encryption: Public Key
+      </h1>
+    </header>
+
+    <main>
+      <div id="generate-keys">
+        <div id="pick-primes"
+          <h3>
+            Pick 2 small prime numbers:
+          </h3>
+          <ul id="primes-under-50">
+            <li>11</li>
+            <li>13</li>
+            <li>17</li>
+            <li>19</li>
+            <li>23</li>
+            <li>29</li>
+            <li>31</li>
+            <li>37</li>
+            <li>41</li>
+            <li>43</li>
+            <li>47</li>
+          </ul>
+          <form id="pick-primes">
+            <input type="number" id="prime1" name="prime1">
+            <input type="number" id="prime2" name="prime2">
+            <button value="submit">Submit Primes!</button>
+          </form>
+        </div>
+      </div>
+      <form action="/public-key/encrypt">
+        <label>Message to Encrypt:</label>
+        <br>
+        <textarea id="encrypt-message" name="message"></textarea>
+        <br>
+        <label>Keys:</label>
+        <input type="text" id="encrypt-public-key-1" name="key1"><input type="text" id="encrypt-public-key-2" name="key2">
+        <br>
+        <button value="submit">Encrypt</button>
+        
+      </form>
+      <br>
+      <br>
+      <form action="/public-key/decrypt">
+        <label>Message to Decrypt:</label>
+        <br>
+        <textarea id="decrypt-message" name="message"></textarea>
+        <br>
+        <label>Keys:</label>
+        <input type="text" id="decrypt-private-key-1" name="key1"><input type="text" id="decrypt-private-key-1" name="key2">
+        <br>
+        <button value="submit">Decrypt</button>
+ 
+      </form>
+    </main>
+
+    <footer>
+      <a href="https://glitch.com">
+        Remix this in Glitch
+      </a>
+    </footer>
+
+    <!-- Your web-app is https, so your scripts need to be too -->
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
+            integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
+            crossorigin="anonymous"></script>
+    <script src="/client.js"></script>
+  </body>
+</html>
