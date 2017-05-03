@@ -46,6 +46,60 @@ def offsetDecrypt(myEncodedString, myOffset):
     newString += newChar
   return newString
 
+def keyEncrypt(myString, myPassword):
+  newString = ""
+  for c in myPassword:
+    if ord(c) > 126:
+      return "Error"
+  count = 0
+  passwordLength = len(myPassword)
+  for c in myString:
+    intC = ord(c)
+    if intC > 126:
+      return "Error"
+    if intC < 32:
+      return "Error"
+    offset = ord(myPassword[count])
+    newIntC = intC + offset
+    if newIntC > 126:
+      newIntC = newIntC - 95
+      if newIntC > 126:
+        newIntC = newIntC - 95
+    newChar = chr(newIntC)
+    newString += newChar
+    
+    count += 1
+    if count == passwordLength:
+      count = 0
+  return newString
+
+def keyDecrypt(myEncodedString, myPassword):
+  newString = ""
+  for c in myPassword:
+    if ord(c) > 126:
+      return "Error"
+  count = 0
+  passwordLength = len(myPassword)
+  for c in myEncodedString:
+    intC = ord(c)
+    if intC > 126:
+      return "Error"
+    if intC < 32:
+      return "Error"
+    offset = ord(myPassword[count])
+    newIntC = intC - offset
+    if newIntC < 32:
+      newIntC = newIntC + 95
+      if newIntC < 32:
+        newIntC = newIntC + 95
+    newChar = chr(newIntC)
+    newString += newChar
+    
+    count += 1
+    if count == passwordLength:
+      count = 0
+  return newString
+
 @app.route("/")
 def hello():
   return app.send_static_file('index.html')
@@ -66,6 +120,9 @@ def get_messages():
 @app.route("/offset/encrypt")
 def offset_encrypt():
   message = request.args.get("message")
+  print("*********")
+  print(message)
+  print("*********")
   offset = request.args.get("offset")
   if message and offset:
     encrypted_message = offsetEncrypt(message, offset)
@@ -92,11 +149,46 @@ def offset_decrypt():
       decrypted_message=decrypted_message
     )
   else: 
-    return app.send_static_file("offset-.html")
+    return app.send_static_file("offset.html")
 
 @app.route("/offset")
 def offset():
   return app.send_static_file("offset.html")
+
+@app.route("/shared-key/encrypt")
+def shared_key_encrypt():
+  message = request.args.get("message")
+  key = request.args.get("key")
+  if message and key:
+    encrypted_message = keyEncrypt(message, key)
+    return render_template(
+    "shared-key-encrypt-message.html",
+    key=key,
+    message=message,
+    encrypted_message=encrypted_message
+    )
+  else:
+    return app.send_static_file("offset.html")
+  
+@app.route("/shared-key/decrypt")
+def shared_key_decrypt():
+  message = request.args.get("message")
+  key = request.args.get("key")
+  if message and key:
+    decrypted_message = keyEncrypt(message, key)
+    return render_template(
+    "shared-key-decrypt-message.html",
+    key=key,
+    message=message,
+    decrypted_message=decrypted_message
+    )
+  else:
+    return app.send_static_file("offset.html")
+
+
+@app.route("/shared-key")
+def shared_key():
+  return app.send_static_file("shared-key.html")
 
 @app.route('/<path:path>')
 def send_static(path):
