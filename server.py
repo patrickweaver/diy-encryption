@@ -175,7 +175,7 @@ def shared_key_decrypt():
   message = request.args.get("message")
   key = request.args.get("key")
   if message and key:
-    decrypted_message = keyEncrypt(message, key)
+    decrypted_message = keyDecrypt(message, key)
     return render_template(
     "shared-key-decrypt-message.html",
     key=key,
