@@ -15,6 +15,14 @@ body {
   margin: 25px;
 }
 
+a:link, a:visited {
+  color: #2C328C;
+}
+
+a:hover, a:active {
+  color: #1A1A6B;
+}
+
 h1 {
   font-weight: bold;
   font-size: 48px;
