@@ -1,6 +1,7 @@
 import sys
 
 from flask import Flask, send_from_directory, jsonify, request, render_template
+
 app = Flask(__name__, static_folder='views')
 
 
@@ -326,6 +327,18 @@ def shared_key():
   return app.send_static_file("shared-key.html")
 
 # Public Key:
+
+@app.route("/public-key/primes", methods=["GET"])
+def available_keys():
+  prime1 = int(request.args.get("prime1"))
+  prime2 = int(request.args.get("prime2"))
+  modulus = prime1 * prime2
+  coprimesOf = (prime1 - 1) * (prime2 - 1)
+  coprimes = []
+  for n in range(2, coprimesOf):
+    if coprime(n, coprimesOf):
+      coprimes.append(n)
+  return jsonify(coprimes)
 
 @app.route("/public-key")
 def public_key():

@@ -13,7 +13,6 @@ $(function() {
   
   function clearPrime(clicked, prime){
     clicked.removeClass(prime);
-    $( "input#" + prime ).val("");
     return null;
   }
   
@@ -24,7 +23,6 @@ $(function() {
       if (prime2 != num) {
         prime1 = num;
         $( this ).addClass("prime1");
-        $( "input#prime1" ).val(num);
       } else {
         prime2 = clearPrime($( this ), "prime2");
       }
@@ -34,7 +32,6 @@ $(function() {
         if (prime1 != num) {
           prime2 = num;
           $( this ).addClass("prime2");
-          $( "input#prime2" ).val(num);
         } else {
           prime1 = clearPrime($( this ), "prime1");
         }
@@ -51,11 +48,27 @@ $(function() {
       }
     }
     if (prime1 && prime2){
-      $( "form#pick-primes" ).show();
+      $( "button#submit-primes" ).show();
     } else {
-      $( "form#pick-primes" ).hide();
+      $( "button#submit-primes" ).hide();
     }
     console.log("Prime1: " + prime1 + ", Prime2: " + prime2);
   });
-
+  
+  $( "button#submit-primes").click(function() {
+      $.ajax({
+        url: "/public-key/primes",
+        data: {
+          prime1: prime1,
+          prime2: prime2
+        },
+        success: function(data) {
+          console.log("Success: " + data);
+        },
+        error: function(xhr, status, err) {
+          console.error(err);
+        }
+      });
+  });
+  
 });
