@@ -109,14 +109,7 @@ footer > a {
   background-color: #FF3333;
 }
 
-input#prime1 {
+button#submit-primes {
   display: none;
-}
-
-input#prime2 {
-  display: none;
-}
-
-form#pick-primes {
-  display: none;
+  margin: 1em;
 }
