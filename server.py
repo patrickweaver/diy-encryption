@@ -117,10 +117,6 @@ primesUnder20 = [11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]
 
 def generateKeys():
   
-  print("Pick one of the following prime numbers:")
-  for p in primesUnder20:
-    print(p)
-  print()
   prime1 = int(input())
   if prime1 not in primesUnder20:
     return ["Error", "Not a valid prime number."]
@@ -328,8 +324,8 @@ def shared_key():
 
 # Public Key:
 
-@app.route("/public-key/primes", methods=["GET"])
-def available_keys():
+@app.route("/public-key/primes")
+def available_coprimes():
   prime1 = int(request.args.get("prime1"))
   prime2 = int(request.args.get("prime2"))
   modulus = prime1 * prime2
@@ -339,6 +335,28 @@ def available_keys():
     if coprime(n, coprimesOf):
       coprimes.append(n)
   return jsonify(coprimes)
+
+@app.route("/public-key/keys")
+def keys():
+  prime1 = int(request.args.get("prime1"))
+  prime2 = int(request.args.get("prime2"))
+  coprime = int(request.args.get("coprime"))
+  modulus = prime1 * prime2
+  coprimesOf = (prime1 - 1) * (prime2 - 1)
+  encryptExponent = coprime
+  decryptExponent = 0
+  publicKeys = [encryptExponent, modulus]
+  for n in range(2, coprimesOf):
+    if (n * encryptExponent) % coprimesOf == 1:
+      decryptExponent = n
+      privateKeys = [decryptExponent, modulus]
+      return jsonify({"publicKeys": publicKeys, "privateKeys": privateKeys})
+  if decryptExponent  == 0:
+    return jsonify(["Error", "No private decrypt exponent found."])
+  return jsonify(["Error", "Ended without valid return"])
+  
+  
+  
 
 @app.route("/public-key")
 def public_key():
