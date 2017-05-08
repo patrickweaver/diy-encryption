@@ -2,6 +2,8 @@ import sys
 
 from flask import Flask, send_from_directory, jsonify, request, render_template
 
+from random import randint
+
 app = Flask(__name__, static_folder='views')
 
 
@@ -102,9 +104,6 @@ def keyDecrypt(myEncodedString, myPassword):
 # - - - - - - - - - - - - - - - - 
 # Public Key
 # - - - - - - - - - - - - - - - - 
-
-from random import randint
-
 def gcd(a, b):
     while b != 0:
         a, b = b, a % b
@@ -113,64 +112,6 @@ def gcd(a, b):
 def coprime(a, b):
     return gcd(a, b) == 1
   
-primesUnder20 = [11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]
-
-def generateKeys():
-  
-  prime1 = int(input())
-  if prime1 not in primesUnder20:
-    return ["Error", "Not a valid prime number."]
-  print("-- Prime 1: " + str(prime1))
-  print()
-  
-  print("Pick another of the following prime numbers:")
-  for p in primesUnder20:
-    if p != prime1:
-      if p != prime1 - 1:
-        if p != prime1 + 1:
-          print(p)
-  print()
-  prime2 = int(input())
-  if prime2 not in primesUnder20:
-    return ["Error", "Not a valid prime number."]
-  if prime2 == prime1:
-    return ["Error", "Primes chosen are the same"]
-  print("-- Prime 2: " + str(prime2))
-  print()
-  
-  modulus = prime1 * prime2
-  coprimesOf = (prime1 - 1) * (prime2 - 1)
-  print("-- Modulus: " + str(modulus))
-  
-  print()
-  print("Pick one of the following coprimes with " + str(coprimesOf) + " [(" + str(prime1) + " - 1) * (" + str(prime2) + " - 1)]:")
-  validEEs = []
-  for n in range(2, coprimesOf):
-    if coprime(n, coprimesOf):
-      validEEs.append(n)
-      print(n)
-  print()
-  print("Pick one of the above coprimes with " + str(coprimesOf) + " [(" + str(prime1) + " - 1) * (" + str(prime2) + " - 1)]:")
-  print()
-  ee = int(input())
-  if ee in validEEs:
-    print("-- Encryption Exponent: " + str(ee))
-    print()
-    publicKeys = [ee, modulus]
-  else:
-    return ["Error", "Not a valid coprime."]
-  
-  de = 0
-  for n in range(2, coprimesOf):
-    if (n * ee) % coprimesOf == 1:
-      de = n
-      print("-- Decrypt Exponent: " + str(de))
-      privateKeys = [de, modulus]
-      return [publicKeys, privateKeys]
-  if de == 0:
-    return ["Error", "No private decrypt exponent found."]
-  return["Error", "Ended without valid return"]
-
 def charToTildeString(tildeString, nonAsciiInt):
   if nonAsciiInt > 93:
     rand = randint(0, 93)
@@ -183,60 +124,41 @@ def charToTildeString(tildeString, nonAsciiInt):
     return tildeString
   
 
-def privateKeyEncrypt(plainMessage, key):
+def publicKeyEncrypt(plaintext_message, public_keys):
   newString = ""
   count = 0
-  for c in plainMessage:
-    intC = ord(c) - 32
-    if intC > 93:
-      return "Error"
-    if intC < 0:
-      return "Error"
-    newIntC = ((intC**key[0]) % key[1])
-    if newIntC > 93:
-      tildeAdd = charToTildeString("~", newIntC)
-      newString += tildeAdd
-    else: 
-      newChar = chr(newIntC + 32)
-      newString += newChar
-      count += 1
-      if count > 93:
-        count = 0
+  messageLength = len(plaintext_message)
+  for c in plaintext_message:
+    intC = ord(c)
+    newIntC = ((intC**public_keys[0]) % public_keys[1])
+    newString += str(newIntC)
+    count += 1
+    if count >= messageLength:
+      pass
+    else:
+      newString += ", "
   return newString
   
-def privateKeyDecrypt(encMessage, key):
-  newString = ""
-  tildeBank = 0
-  inTilde = False
+def publicKeyDecrypt(encrypted_message, private_keys):
+  encrypted_array = []
+  decrypted_string = ""
   count = 0
-  for c in encMessage:
-    convChar = False
-    if c == "~":
-      if inTilde:
-        intC = tildeBank
-        tildeBank = 0
-        inTilde = False
-        convChar = True
-      else:
-        inTilde = True
+  placeholder_string = ""
+  for c in encrypted_message:
+    if c != "," and c !=" ":
+      placeholder_string += c
     else:
-      if inTilde:
-        tildeBank += ord(c) - 32
+      if c == ",":
+        encrypted_array.append(int(placeholder_string))
+        placeholder_string = ""
       else:
-        intC = ord(c) - 32
-        if intC > 93:
-          return "Error"
-        if intC < 0:
-          return "Error"
-        convChar = True
-    if convChar:
-      newIntC = ((intC**key[0]) % key[1])
-      newChar = chr(newIntC + 32)
-      newString += newChar
-      count +=1
-      if count > 93:
-        count = 0
-  return newString
+        pass
+  encrypted_array.append(int(placeholder_string))
+  
+  for i in encrypted_array:
+    decrypted_int = (i**private_keys[0] % private_keys[1])
+    decrypted_string += chr(decrypted_int)
+  return decrypted_string
 
 # - - - - - - - - - - - - - - - - 
 # Routes
@@ -251,9 +173,6 @@ def hello():
 @app.route("/offset/encrypt")
 def offset_encrypt():
   message = request.args.get("message")
-  print("*********")
-  print(message)
-  print("*********")
   offset = request.args.get("offset")
   if message and offset:
     encrypted_message = offsetEncrypt(message, offset)
@@ -360,13 +279,31 @@ def public_key_encrypt():
   publicKey = []
   publicKey.append(int(request.args.get("public-key-1")))
   publicKey.append(int(request.args.get("public-key-2")))
-  return
+  message = request.args.get("message")
+  if publicKey and message:
+    return render_template(
+    "public-key-encrypt-message.html",
+    public_keys = publicKey,
+    message = message,
+    encrypted_message = publicKeyEncrypt(message, publicKey)
+    )
+  else:
+    return app.send_static_file("public-key.html")
+  
 
 @app.route("/public-key/decrypt")
 def public_key_decrypt():
-  privateKey = []
-  privateKey.append(int(request.args.get("private-key-1")))
-  privateKey.append(int(request.args.get("private-key-2")))
+  privateKeys = []
+  privateKeys.append(int(request.args.get("private-key-1")))
+  privateKeys.append(int(request.args.get("private-key-2")))
+  message = request.args.get("message")
+  if privateKeys and message:
+    return render_template(
+    "public-key-decrypt-message.html",
+    private_keys = privateKeys,
+    encrypted_message = message,
+    decrypted_message = publicKeyDecrypt(message, privateKeys)
+    )
   return
 
   
