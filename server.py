@@ -354,6 +354,21 @@ def keys():
   if decryptExponent  == 0:
     return jsonify(["Error", "No private decrypt exponent found."])
   return jsonify(["Error", "Ended without valid return"])
+
+@app.route("/public-key/encrypt")
+def public_key_encrypt():
+  publicKey = []
+  publicKey.append(int(request.args.get("public-key-1")))
+  publicKey.append(int(request.args.get("public-key-2")))
+  return
+
+@app.route("/public-key/decrypt")
+def public_key_decrypt():
+  privateKey = []
+  privateKey.append(int(request.args.get("private-key-1")))
+  privateKey.append(int(request.args.get("private-key-2")))
+  return
+
   
   
   
