@@ -306,10 +306,6 @@ def public_key_decrypt():
     )
   return
 
-  
-  
-  
-
 @app.route("/public-key")
 def public_key():
   return app.send_static_file("public-key.html")

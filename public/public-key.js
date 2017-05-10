@@ -121,7 +121,9 @@ $(function() {
     });
 
     $( "button#submit-coprime").click(function() {
-      //$( "#coprime-span" ).html(coprime);
+      $( ".coprime-span" ).each(function() {
+        $( this ).html(coprime);
+      });
       $.ajax({
         url: "/public-key/keys",
         data: {
