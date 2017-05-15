@@ -111,6 +111,6 @@ div#generate-keys button {
   margin: 1em;
 }
 
-div#choose-coprime, div#keys {
+div#choose-coprime, div#keys, div#error {
   display: none;
 }
