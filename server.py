@@ -269,7 +269,10 @@ def keys():
     if (n * encryptExponent) % coprimesOf == 1:
       decryptExponent = n
       privateKeys = [decryptExponent, modulus]
-      return jsonify({"publicKeys": publicKeys, "privateKeys": privateKeys})
+      if publicKeys == privateKeys:
+        return jsonify({"error": "Private and public key were the same, use different numbers"})
+      else:
+        return jsonify({"publicKeys": publicKeys, "privateKeys": privateKeys})
   if decryptExponent  == 0:
     return jsonify(["Error", "No private decrypt exponent found."])
   return jsonify(["Error", "Ended without valid return"])

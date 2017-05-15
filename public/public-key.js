@@ -133,7 +133,19 @@ $(function() {
         },
         success: function(data) {
           console.log("Keys: " + data);
-          displayKeys(data);
+          var keyError = false;
+          for (var d in data){
+            console.log(d + ": " + data[d]);
+            if (d === "error"){
+              $( "#error" ).html(d + ": " + data[d] + " Refresh page to generate new keys.");
+              $( "#error" ).show();
+              keyError = true;
+              break;
+            }
+          }
+          if (!keyError){
+            displayKeys(data);
+          }    
         },
         error: function(xhr, status, err) {
           console.error(err);
@@ -141,8 +153,6 @@ $(function() {
       });
     });
   }
-  
- 
   
   function displayKeys(keys) {
     $( "#choose-coprime" ).hide();
