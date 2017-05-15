@@ -137,9 +137,7 @@ $(function() {
           for (var d in data){
             console.log(d + ": " + data[d]);
             if (d === "error"){
-              $( "#error" ).html(d + ": " + data[d] + " Refresh page to generate new keys.");
-              $( "#error" ).show();
-              keyError = true;
+              keyError = keyErrorDisplay(data[d]);
               break;
             }
           }
@@ -152,6 +150,13 @@ $(function() {
         }
       });
     });
+  }
+  
+  function keyErrorDisplay(message){
+    $( "#error" ).html("Error: " + message + " Refresh page to generate new keys.");
+    $( "#choose-coprime" ).hide();
+    $( "#error" ).show();
+    return true;
   }
   
   function displayKeys(keys) {

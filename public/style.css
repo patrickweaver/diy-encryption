@@ -114,3 +114,9 @@ div#generate-keys button {
 div#choose-coprime, div#keys, div#error {
   display: none;
 }
+
+div#error {
+  border: 3px solid red;
+  padding: 1em;
+  font-size: 150%;
+}
