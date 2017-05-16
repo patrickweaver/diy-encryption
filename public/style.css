@@ -118,5 +118,6 @@ div#choose-coprime, div#keys, div#error {
 div#error {
   border: 3px solid red;
   padding: 1em;
+  margin: 1em 0;
   font-size: 150%;
 }
