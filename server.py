@@ -112,17 +112,6 @@ def gcd(a, b):
 def coprime(a, b):
     return gcd(a, b) == 1
   
-def charToTildeString(tildeString, nonAsciiInt):
-  if nonAsciiInt > 93:
-    rand = randint(0, 93)
-    tildeString += chr(rand + 32)
-    nonAsciiInt = nonAsciiInt - rand
-    return charToTildeString(tildeString, nonAsciiInt)
-  else:
-    tildeString += chr(nonAsciiInt + 32)
-    tildeString += "~"
-    return tildeString
-  
 
 def publicKeyEncrypt(plaintext_message, public_keys):
   newString = ""
@@ -170,7 +159,7 @@ def hello():
 
 # Offset:
 
-@app.route("/offset/encrypt")
+@app.route("/offset/encrypt", strict_slashes=False)
 def offset_encrypt():
   message = request.args.get("message")
   offset = request.args.get("offset")
@@ -186,7 +175,7 @@ def offset_encrypt():
   else: 
     return app.send_static_file("offset.html")
 
-@app.route("/offset/decrypt")
+@app.route("/offset/decrypt", strict_slashes=False)
 def offset_decrypt():
   message = request.args.get("message")
   offset = request.args.get("offset")
@@ -201,13 +190,13 @@ def offset_decrypt():
   else: 
     return app.send_static_file("offset.html")
 
-@app.route("/offset")
+@app.route("/offset", strict_slashes=False)
 def offset():
   return app.send_static_file("offset.html")
 
 # Shared Key:
 
-@app.route("/shared-key/encrypt")
+@app.route("/shared-key/encrypt", strict_slashes=False)
 def shared_key_encrypt():
   message = request.args.get("message")
   key = request.args.get("key")
@@ -222,7 +211,7 @@ def shared_key_encrypt():
   else:
     return app.send_static_file("offset.html")
   
-@app.route("/shared-key/decrypt")
+@app.route("/shared-key/decrypt", strict_slashes=False)
 def shared_key_decrypt():
   message = request.args.get("message")
   key = request.args.get("key")
@@ -237,25 +226,28 @@ def shared_key_decrypt():
   else:
     return app.send_static_file("offset.html")
 
-@app.route("/shared-key")
+@app.route("/shared-key", strict_slashes=False)
 def shared_key():
   return app.send_static_file("shared-key.html")
 
 # Public Key:
 
-@app.route("/public-key/primes")
+@app.route("/public-key/primes", strict_slashes=False)
 def available_coprimes():
   prime1 = int(request.args.get("prime1"))
   prime2 = int(request.args.get("prime2"))
+  largerPrime = prime1
+  if (prime1 - prime2) < 0:
+    largerPrime = prime2
   modulus = prime1 * prime2
   coprimesOf = (prime1 - 1) * (prime2 - 1)
   coprimes = []
-  for n in range(2, coprimesOf):
+  for n in range(largerPrime + 2, coprimesOf):
     if coprime(n, coprimesOf):
       coprimes.append(n)
   return jsonify(coprimes)
 
-@app.route("/public-key/keys")
+@app.route("/public-key/keys", strict_slashes=False)
 def keys():
   prime1 = int(request.args.get("prime1"))
   prime2 = int(request.args.get("prime2"))
@@ -277,7 +269,7 @@ def keys():
     return jsonify(["Error", "No private decrypt exponent found."])
   return jsonify(["Error", "Ended without valid return"])
 
-@app.route("/public-key/encrypt")
+@app.route("/public-key/encrypt", strict_slashes=False)
 def public_key_encrypt():
   publicKey = []
   publicKey.append(int(request.args.get("public-key-1")))
@@ -294,7 +286,7 @@ def public_key_encrypt():
     return app.send_static_file("public-key.html")
   
 
-@app.route("/public-key/decrypt")
+@app.route("/public-key/decrypt", strict_slashes=False)
 def public_key_decrypt():
   privateKeys = []
   privateKeys.append(int(request.args.get("private-key-1")))
@@ -309,13 +301,13 @@ def public_key_decrypt():
     )
   return
 
-@app.route("/public-key")
+@app.route("/public-key", strict_slashes=False)
 def public_key():
   return app.send_static_file("public-key.html")
 
 # Public Directory:
 
-@app.route('/<path:path>')
+@app.route('/<path:path>', strict_slashes=False)
 def send_static(path):
   return send_from_directory('public', path)
 
