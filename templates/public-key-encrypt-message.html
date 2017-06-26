@@ -1,52 +1,24 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Python Encryption: Public Key</title>
-    <meta name="description" content="A cool thing made with HyperDev">
-    <link id="favicon" rel="icon" href="https://hyperweb.space/favicon.ico" type="image/x-icon">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/style.css">
-  </head>
-  <body>
-    <header>
-      <a href="/">
-        <h1>
-          Python Encryption
-        </h1>
-      </a>
-      <h2>
-        Public Key
-      </h2>
-    </header>
+{% extends "layout.html" %}
+{% block body %}   
 
-    <main>
-      <h3>
-        Encrypted Message with Public Key: {{ public_keys }}:
-      </h3>
-      <p id="encrypted-message">
-        {{ encrypted_message }}
-      </p>
-      <h3>
-        Original Message:
-      </h3>
-      <p id="message">
-        {{ message }}
-      </p>
-      <br>
-      <a href="/public-key">Back to Decrypt!</a>
-    </main>
+  <h2>
+    Public Key
+  </h2>
 
-    <footer>
-      <a href="https://glitch.com">
-        Remix this in Glitch
-      </a>
-    </footer>
-
-    <!-- Your web-app is https, so your scripts need to be too -->
-    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
-            integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
-            crossorigin="anonymous"></script>
-  </body>
-</html>
+  <main>
+    <h3>
+      Encrypted Message with Public Key: {{ public_keys }}:
+    </h3>
+    <p id="encrypted-message">
+      {{ encrypted_message }}
+    </p>
+    <h3>
+      Original Message:
+    </h3>
+    <p id="message">
+      {{ message }}
+    </p>
+    <br>
+    <a href="/public-key">Back to Decrypt!</a>
+  </main>
+{% endblock %}

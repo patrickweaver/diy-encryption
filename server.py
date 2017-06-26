@@ -155,7 +155,7 @@ def publicKeyDecrypt(encrypted_message, private_keys):
 
 @app.route("/")
 def hello():
-  return app.send_static_file('index.html')
+  return render_template('index.html')
 
 # Offset:
 
@@ -173,7 +173,7 @@ def offset_encrypt():
       encrypted_message=encrypted_message
     )
   else: 
-    return app.send_static_file("offset.html")
+    return render_template("offset.html")
 
 @app.route("/offset/decrypt", strict_slashes=False)
 def offset_decrypt():
@@ -188,11 +188,11 @@ def offset_decrypt():
       decrypted_message=decrypted_message
     )
   else: 
-    return app.send_static_file("offset.html")
+    return render_template("offset.html")
 
 @app.route("/offset", strict_slashes=False)
 def offset():
-  return app.send_static_file("offset.html")
+  return render_template("offset.html")
 
 # Shared Key:
 
@@ -209,7 +209,7 @@ def shared_key_encrypt():
     encrypted_message=encrypted_message
     )
   else:
-    return app.send_static_file("offset.html")
+    return render_template("shared-key.html")
   
 @app.route("/shared-key/decrypt", strict_slashes=False)
 def shared_key_decrypt():
@@ -224,11 +224,11 @@ def shared_key_decrypt():
     decrypted_message=decrypted_message
     )
   else:
-    return app.send_static_file("offset.html")
+    return render_template("shared-key.html")
 
 @app.route("/shared-key", strict_slashes=False)
 def shared_key():
-  return app.send_static_file("shared-key.html")
+  return render_template("shared-key.html")
 
 # Public Key:
 
@@ -283,7 +283,7 @@ def public_key_encrypt():
     encrypted_message = publicKeyEncrypt(message, publicKey)
     )
   else:
-    return app.send_static_file("public-key.html")
+    return render_template("public-key.html")
   
 
 @app.route("/public-key/decrypt", strict_slashes=False)
@@ -303,7 +303,7 @@ def public_key_decrypt():
 
 @app.route("/public-key", strict_slashes=False)
 def public_key():
-  return app.send_static_file("public-key.html")
+  return render_template("public-key.html")
 
 # Public Directory:
 

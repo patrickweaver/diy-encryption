@@ -1,0 +1,106 @@
+{% extends "layout.html" %}
+{% block body %}   
+
+  <h2>
+    Public Key
+  </h2>
+
+  <main>
+    <div id="generate-keys">
+      <div id="choose-primes" class="generate-section">
+        <h3>
+          Choose two small prime numbers:
+        </h3>
+
+        <button id="submit-primes">
+          Submit Primes!
+        </button>
+
+        <ul id="primes-under-50-list" class="number-list">
+          <!--<li>3</li>-->
+          <!--<li>5</li>-->
+          <li>7</li>
+          <li>11</li>
+          <li>13</li>
+          <li>17</li>
+          <li>19</li>
+          <li>23</li>
+          <li>29</li>
+
+          <!--<li>31</li>
+          <li>37</li>
+          <li>41</li>
+          <li>43</li>
+          <li>47</li>-->
+        </ul>
+
+      </div>
+      <div id="choose-coprime" class="generate-section">
+        <h3>
+          Choose one of the coprimes of <span class="prime1-span"></span> and <span class="prime2-span"></span>:
+        </h3>
+
+        <button id="submit-coprime">
+          Submit Coprime!
+        </button>
+
+        <ul id="coprime-list" class="number-list">
+
+        </ul>
+
+      </div>
+      <div id="keys" class="generate-section">
+        <h3>
+          Keys:
+        </h3>
+        <p>
+          <strong>Prime 1:</strong> <span class="prime1-span"></span>
+        </p>
+        <p>
+          <strong>Prime 2:</strong> <span class="prime2-span"></span>
+        </p>
+        <p>
+          <strong>Coprime:</strong> <span class="coprime-span"></span>
+        </p>
+        <h3>
+          <strong>Public Keys:</strong> <span class="public-keys-span"></span>
+        </h3>
+        <h3>
+          <strong>Private Keys:</strong> <span class="private-keys-span"></span>
+        </h3>
+
+      </div>
+      <div id="error" class="generate-section">
+
+      </div>
+    </div>
+    <form action="/public-key/encrypt">
+      <label>Message to Encrypt:</label>
+      <br>
+      <textarea id="encrypt-message" name="message"></textarea>
+      <br>
+      <label>Key 1:</label>
+      <input type="text" id="encrypt-public-key-1" name="public-key-1">
+      <label>Key 2:</label>
+      <input type="text" id="encrypt-public-key-2" name="public-key-2">
+      <br>
+      <button value="submit">Encrypt</button>
+
+    </form>
+    <br>
+    <br>
+    <form action="/public-key/decrypt">
+      <label>Message to Decrypt:</label>
+      <br>
+      <textarea id="decrypt-message" name="message"></textarea>
+      <br>
+      <label>Key 1:</label>
+      <input type="text" id="decrypt-private-key-1" name="private-key-1">
+      <label>Key 2:</label>
+      <input type="text" id="decrypt-private-key-2" name="private-key-2">
+      <br>
+      <button value="submit">Decrypt</button>
+
+    </form>
+  </main>
+{% endblock %}
