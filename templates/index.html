@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block body %}
+  <header>
+    <h2>
+      Encrypt a secret message!
+    </h2>
+  </header>
+  <main>
+    <div id="encryption-type">
+      <h2>
+        <a href="/offset">Offset Encryption</a><br>
+      </h2>
+      
+      <p>
+        This encrypts your message using a simple offset on the ASCII code of each 
+        character in your message.
+      </p>
+      <br>
+      <h2>
+        <a href="/shared-key">Shared Key Encryption</a><br>
+      </h2>
+      <p>
+        This encrypts your message using a shared key phrase. The key generates different
+        offsets that are used on the ASCII code of each character in your message.
+      </p>
+      <br>
+      <h2>
+        <a href="/public-key">Public Key Encryption</a><br>
+      </h2>
+      <p>
+        This helps you generate public and private keys. Other people can use your public
+        key to encrypt messages that you can decrypt with your private key.
+      </p>
+      <br>
+    </div>
+
+  </main>
+{% endblock %}
