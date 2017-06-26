@@ -8,7 +8,8 @@ app = Flask(__name__, static_folder='views')
 
 
 # - - - - - - - - - - - - - - - - 
-# Offset
+# ** Offset **
+# This algorithm encrypts a message by getting a character's ASCII code, offestting it by a set amount, and returning the ASCII character that corresponds to the new number.
 # - - - - - - - - - - - - - - - - 
 
 def offsetEncrypt(myString, myOffset):
@@ -44,7 +45,8 @@ def offsetDecrypt(myEncodedString, myOffset):
   return newString
 
 # - - - - - - - - - - - - - - - - 
-# Shared Key
+# ** Shared Key **
+# This algorithm encrypts a message by getting a character's ASCII code, offsetting it by the ASCII code of a character in the key. Each character in the message is offset by the ASCII code of the next character in they key. If the message is longer than the key the ASCII codes from the key are repeated. 
 # - - - - - - - - - - - - - - - - 
 
 def keyEncrypt(myString, myPassword):
@@ -102,7 +104,8 @@ def keyDecrypt(myEncodedString, myPassword):
   return newString
 
 # - - - - - - - - - - - - - - - - 
-# Public Key
+# **  Public Key **
+# This algorithm encrypts a message by using public keys generated on the front end. The ASCII code of each character in the message is converted into a number using the public key. To decrypt the message, the number is converted back into an ASCII code using the private key.
 # - - - - - - - - - - - - - - - - 
 def gcd(a, b):
     while b != 0:
