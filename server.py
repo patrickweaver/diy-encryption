@@ -195,7 +195,14 @@ def offset_decrypt():
 
 @app.route("/offset", strict_slashes=False)
 def offset():
-  return render_template("offset.html")
+  
+  explanation = "Offset encryption converts each character in your message to it's corresponding ASCII code. "
+  
+  
+  return render_template(
+    "offset.html",
+    explanation=explanation
+  )
 
 # Shared Key:
 
@@ -231,7 +238,11 @@ def shared_key_decrypt():
 
 @app.route("/shared-key", strict_slashes=False)
 def shared_key():
-  return render_template("shared-key.html")
+  explanation = ""
+  return render_template(
+    "shared-key.html",
+    explanation=explanation
+  )
 
 # Public Key:
 
@@ -306,7 +317,11 @@ def public_key_decrypt():
 
 @app.route("/public-key", strict_slashes=False)
 def public_key():
-  return render_template("public-key.html")
+  explanation = ""
+  return render_template(
+    "public-key.html",
+    explanation=explanation
+  )
 
 # Public Directory:
 

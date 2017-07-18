@@ -33,6 +33,20 @@ h1 {
   font-weight: bold;
 }
 
+#encryption {
+  border: 1px dashed orange;
+  width: 40%;
+  margin: 0 5%;
+  display: inline-block;
+}
+
+#explanation {
+  border: 1px dashed blue;
+  width: 38%;
+  margin: 0 5%;
+  display: inline-block;
+}
+
 form {
   margin-bottom: 25px;
   padding: 15px;
