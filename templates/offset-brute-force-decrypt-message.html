@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block body %} 
+  <h2>
+    Offset
+  </h2>
+
+  <main>
+    <h3>
+      Original Encrypted Message:
+    </h3>
+    <p id="encrypted-message">
+      {{ message }}
+    </p>
+    <h3>
+      Possible Decrypted Messages:
+    </h3>
+    <h4>
+      95 possible messages took {{ decrypt_time }} seconds to decrypt.
+    </h4>
+    <h4>
+      Original message is probably offset {{ most_likely_offset }}:
+    </h4>
+    <p>
+      {{  most_likely }}
+    </p>
+    
+    <hr/>
+    <ol>
+    {% for possible_message in possible_decrypted_messages %}
+      <li>
+        {{ possible_message }}
+      </li>
+    {% endfor %}
+    </ol>
+    <br>
+    <a href="/offset">Back to Decrypt!</a>
+  </main>
+{% endblock %}
+

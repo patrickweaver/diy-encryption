@@ -1,4 +1,4 @@
-import sys
+import sys, time
 
 from flask import Flask, send_from_directory, jsonify, request, render_template
 
@@ -16,6 +16,7 @@ def offsetEncrypt(myString, myOffset):
   newString = ""
   intOffset = int(myOffset)
   for c in myString:
+    print(ord(c))
     intC = ord(c)
     if intC > 126:
       return "Error"
@@ -43,6 +44,36 @@ def offsetDecrypt(myEncodedString, myOffset):
     newChar = chr(newIntC)
     newString += newChar
   return newString
+
+def offsetBruteForce(myEncodedString):
+  newStrings = []
+  # Do the following for each offest someone might have chosen
+  for possibleOffset in range(1, 95):
+    # Test that offset on each character of the enrypted message
+    newString = offsetDecrypt(myEncodedString, possibleOffset)
+    newStrings.append(newString)
+  return newStrings
+
+def findSpaces(myPossibleStrings):
+  maxSpaces = 0
+  mostLikelyIndex = 0
+  index = 0
+  for string in myPossibleStrings:
+    spaces = 0
+    ords = ""
+    for c in string:
+      a = ord(c)
+      ords += str(a) + "[" + chr(a) + "]"
+      
+      if ord(c) == 32:
+        spaces += 1
+        ords += "(!!)"
+      if spaces > maxSpaces:
+        maxSpaces = spaces
+        mostLikelyIndex = index
+      ords += ", "
+    index += 1
+  return mostLikelyIndex
 
 # - - - - - - - - - - - - - - - - 
 # ** Shared Key **
@@ -170,10 +201,10 @@ def offset_encrypt():
     encrypted_message = offsetEncrypt(message, offset)
     message = offsetDecrypt(encrypted_message, offset)
     return render_template(
-      "offest-encrypt-message.html",
-      offset=offset,
-      message=message,
-      encrypted_message=encrypted_message
+      "offset-encrypt-message.html",
+      offset = offset,
+      message = message,
+      encrypted_message = encrypted_message
     )
   else: 
     return render_template("offset.html")
@@ -185,13 +216,33 @@ def offset_decrypt():
   if message and offset:
     decrypted_message = offsetDecrypt(message, offset)
     return render_template(
-      "offest-decrypt-message.html",
-      offset=offset,
-      message=message,
-      decrypted_message=decrypted_message
+      "offset-decrypt-message.html",
+      offset = offset,
+      message = message,
+      decrypted_message = decrypted_message
     )
   else: 
     return render_template("offset.html")
+  
+@app.route("/offset/brute-force", strict_slashes=False)
+def offset_brute_force_decrypt():
+  message = request.args.get("message")
+  if message:
+    start_time = time.time()
+    possible_decrypted_messages = offsetBruteForce(message)
+    end_time = time.time()
+    decrypt_time = end_time - start_time
+    most_likely_index = findSpaces(possible_decrypted_messages)
+    return render_template(
+      "offset-brute-force-decrypt-message.html",
+      message = message,
+      decrypt_time = decrypt_time,
+      most_likely_offset = most_likely_index + 1,
+      most_likely = possible_decrypted_messages[most_likely_index],
+      possible_decrypted_messages = possible_decrypted_messages
+    )
+  else:
+    return render_tempalte("offset.html")
 
 @app.route("/offset", strict_slashes=False)
 def offset():
