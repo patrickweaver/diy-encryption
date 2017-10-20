@@ -143,23 +143,23 @@ def keyBruteForce(myEncodedString):
   keys = []
   # Length of key
   key = ""
-  for key_length in range(1, 3):
+  for key_length in range(3, 4):
     # An array for each of the possible lengths of keys
     keys_array.append([])
     keys = [""]
     for place in range(0, key_length):
       keys = for_each_place(keys)
     
-  #for key in keys:
-    #key_decrypt()
-  #return new_strings
-  return keys
+  for key in keys:
+    possible_message = keyDecrypt(myEncodedString, key)
+    new_strings.append(possible_message)
+  return new_strings
 
 def for_each_place(beginnings_of_keys):
   old_beginnings = beginnings_of_keys
   beginnings_of_keys = []
   for beginning in old_beginnings:
-    for character in range(97, 122):
+    for character in range(97, 126):
       print(beginning + chr(character))
       beginnings_of_keys.append(beginning + chr(character))
   return beginnings_of_keys
@@ -321,11 +321,16 @@ def shared_key_decrypt():
     return render_template("shared-key.html")
 
 @app.route("/shared-key/brute-force", strict_slashes=False)
-def shared_key_brute_force():
-  keys = keyBruteForce("test");
+def shared_key_brute_force(): 
+  message = request.args.get("message")
+  start_time = time.time()
+  possible_decrypted_messages = keyBruteForce(message);
+  end_time = time.time()
+  decrypt_time = end_time - start_time
   return render_template(
   "shared-key-brute-force.html",
-  keys = keys
+  possible_decrypted_messages=possible_decrypted_messages,
+  decrypt_time = decrypt_time
   )
   
 @app.route("/shared-key", strict_slashes=False)
