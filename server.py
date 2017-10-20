@@ -293,7 +293,10 @@ def offset():
 @app.route("/shared-key/encrypt", strict_slashes=False)
 def shared_key_encrypt():
   message = request.args.get("message")
-  key = request.args.get("key")
+  key1 = request.args.get("key1")
+  key2 = request.args.get("key2")
+  key3 = request.args.get("key3")
+  key = key1 + key2 + key3
   if message and key:
     encrypted_message = keyEncrypt(message, key)
     return render_template(
@@ -308,7 +311,10 @@ def shared_key_encrypt():
 @app.route("/shared-key/decrypt", strict_slashes=False)
 def shared_key_decrypt():
   message = request.args.get("message")
-  key = request.args.get("key")
+  key1 = request.args.get("key1")
+  key2 = request.args.get("key2")
+  key3 = request.args.get("key3")
+  key = key1 + key2 + key3
   if message and key:
     decrypted_message = keyDecrypt(message, key)
     return render_template(
@@ -330,6 +336,7 @@ def shared_key_brute_force():
   return render_template(
   "shared-key-brute-force.html",
   possible_decrypted_messages=possible_decrypted_messages,
+  possible_decrypted_messages_length = len(possible_decrypted_messages),
   decrypt_time = decrypt_time
   )
   
