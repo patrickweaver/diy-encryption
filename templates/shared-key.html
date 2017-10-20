@@ -13,7 +13,9 @@
         <textarea id="encrypt-message" name="message"></textarea>
         <br>
         <label>Key:</label>
-        <input type="text" id="encrypt-shared-key" name="key">
+        <input type="text" class="shared-key" name="key1" maxlength="1" pattern="[a-z]{1}">
+        <input type="text" class="shared-key" name="key2" maxlength="1" pattern="[a-z]{1}">
+        <input type="text" class="shared-key" name="key3" maxlength="1" pattern="[a-z]{1}">
         <br>
         <button value="submit">Encrypt</button>
 
@@ -26,7 +28,9 @@
         <textarea id="decrypt-message" name="message"></textarea>
         <br>
         <label>Key:</label>
-        <input type="text" id="decrypt-shared-key" name="key">
+        <input type="text" class="shared-key" name="key1" maxlength="1" pattern="[a-z]{1}">
+        <input type="text" class="shared-key" name="key2" maxlength="1" pattern="[a-z]{1}">
+        <input type="text" class="shared-key" name="key3" maxlength="1" pattern="[a-z]{1}">
         <br>
         <button value="submit">Decrypt</button>
 

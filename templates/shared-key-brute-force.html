@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block body %} 
   <h2>
-    Public Key
+    Shared Key
   </h2>
 
   <main>
@@ -15,7 +15,7 @@
       Possible Decrypted Messages:
     </h3>
     <h4>
-      95 possible messages took {{ decrypt_time }} seconds to decrypt.
+      {{ possible_decrypted_messages_length }} possible messages took {{ decrypt_time }} seconds to decrypt.
     </h4>
     <h4>
       Original message is probably offset {{ most_likely_offset }}:
