@@ -75,6 +75,9 @@ def findSpaces(myPossibleStrings):
     index += 1
   return mostLikelyIndex
 
+
+
+
 # - - - - - - - - - - - - - - - - 
 # ** Shared Key **
 # This algorithm encrypts a message by getting a character's ASCII code, offsetting it by the ASCII code of a character in the key. Each character in the message is offset by the ASCII code of the next character in they key. If the message is longer than the key the ASCII codes from the key are repeated. 
@@ -133,6 +136,35 @@ def keyDecrypt(myEncodedString, myPassword):
     if count == passwordLength:
       count = 0
   return newString
+
+def keyBruteForce(myEncodedString):
+  new_strings = []
+  keys_array = []
+  keys = []
+  # Length of key
+  key = ""
+  for key_length in range(1, 3):
+    # An array for each of the possible lengths of keys
+    keys_array.append([])
+    keys = [""]
+    for place in range(0, key_length):
+      keys = for_each_place(keys)
+    
+  #for key in keys:
+    #key_decrypt()
+  #return new_strings
+  return keys
+
+def for_each_place(beginnings_of_keys):
+  old_beginnings = beginnings_of_keys
+  beginnings_of_keys = []
+  for beginning in old_beginnings:
+    for character in range(97, 122):
+      print(beginning + chr(character))
+      beginnings_of_keys.append(beginning + chr(character))
+  return beginnings_of_keys
+
+
 
 # - - - - - - - - - - - - - - - - 
 # **  Public Key **
@@ -234,7 +266,7 @@ def offset_brute_force_decrypt():
     decrypt_time = end_time - start_time
     most_likely_index = findSpaces(possible_decrypted_messages)
     return render_template(
-      "offset-brute-force-decrypt-message.html",
+      "offset-brute-force.html",
       message = message,
       decrypt_time = decrypt_time,
       most_likely_offset = most_likely_index + 1,
@@ -255,6 +287,7 @@ def offset():
     explanation=explanation
   )
 
+# - - - - - - - - - - - - - - - -
 # Shared Key:
 
 @app.route("/shared-key/encrypt", strict_slashes=False)
@@ -287,6 +320,14 @@ def shared_key_decrypt():
   else:
     return render_template("shared-key.html")
 
+@app.route("/shared-key/brute-force", strict_slashes=False)
+def shared_key_brute_force():
+  keys = keyBruteForce("test");
+  return render_template(
+  "shared-key-brute-force.html",
+  keys = keys
+  )
+  
 @app.route("/shared-key", strict_slashes=False)
 def shared_key():
   explanation = ""
@@ -295,6 +336,8 @@ def shared_key():
     explanation=explanation
   )
 
+
+# - - - - - - - - - - - - - - - - 
 # Public Key:
 
 @app.route("/public-key/primes", strict_slashes=False)
@@ -374,6 +417,7 @@ def public_key():
     explanation=explanation
   )
 
+# - - - - - - - - - - - - - - - -
 # Public Directory:
 
 @app.route('/<path:path>', strict_slashes=False)
