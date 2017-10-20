@@ -89,6 +89,7 @@ def keyEncrypt(myString, myPassword):
     if ord(c) > 126:
       return "Error"
   count = 0
+  direction = 0
   passwordLength = len(myPassword)
   for c in myString:
     intC = ord(c)
@@ -97,11 +98,19 @@ def keyEncrypt(myString, myPassword):
     if intC < 32:
       return "Error"
     offset = ord(myPassword[count])
-    newIntC = intC + offset
+    if direction == 0:
+      newIntC = intC + offset
+    else:
+      newIntC = intC - offset
+    direction = direction * -1 + 1
     if newIntC > 126:
       newIntC = newIntC - 95
       if newIntC > 126:
         newIntC = newIntC - 95
+    if newIntC < 32:
+      newIntC = newIntC + 95
+      if newIntC < 32:
+        newIntC = newIntC + 95
     newChar = chr(newIntC)
     newString += newChar
     
@@ -116,6 +125,7 @@ def keyDecrypt(myEncodedString, myPassword):
     if ord(c) > 126:
       return "Error"
   count = 0
+  direction = 0
   passwordLength = len(myPassword)
   for c in myEncodedString:
     intC = ord(c)
@@ -124,11 +134,19 @@ def keyDecrypt(myEncodedString, myPassword):
     if intC < 32:
       return "Error"
     offset = ord(myPassword[count])
-    newIntC = intC - offset
+    if direction == 0:
+      newIntC = intC - offset
+    else:
+      newIntC = intC + offset
+    direction = direction * -1 + 1
     if newIntC < 32:
       newIntC = newIntC + 95
       if newIntC < 32:
         newIntC = newIntC + 95
+    if newIntC > 126:
+      newIntC = newIntC - 95
+      if newIntC > 126:
+        newIntC = newIntC - 95
     newChar = chr(newIntC)
     newString += newChar
     
