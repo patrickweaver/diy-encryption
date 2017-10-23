@@ -211,6 +211,26 @@ def gcd(a, b):
 def coprime(a, b):
     return gcd(a, b) == 1
   
+def generate_keys(prime_1, prime_2, coprime):
+  modulus = prime_1 * prime_2
+  coprimes_of = (prime_1 - 1) * (prime_2 - 1)
+  encrypt_exponent = coprime
+  decrypt_exponent = 0
+  public_keys = [encrypt_exponent, modulus]
+  for n in range(2, coprimes_of):
+    # Find largest decrypt_exponent:
+    if (n * encrypt_exponent) % coprimes_of == 1:
+      decrypt_exponent = n
+  if decrypt_exponent  == 0:
+    return False
+  private_keys = [decrypt_exponent, modulus]
+  if public_keys == private_keys:
+    return False
+  return {
+    "public_keys": public_keys,
+    "private_keys": private_keys
+  }
+  
 
 def public_key_encrypt(plaintext_message, public_keys):
   clean_string = line_break_to_space(plaintext_message)
@@ -530,7 +550,8 @@ def available_coprimes():
   coprimes = []
   for n in range(larger_prime + 2, coprimes_of):
     if coprime(n, coprimes_of):
-      coprimes.append(n)
+      if generate_keys(prime_1, prime_2, n):
+        coprimes.append(n)
   return jsonify(coprimes)
 
 @app.route("/public-key/keys", methods=["POST"], strict_slashes=False)
@@ -538,23 +559,15 @@ def keys():
   prime_1 = int(request.form.get("prime1"))
   prime_2 = int(request.form.get("prime2"))
   coprime = int(request.form.get("coprime"))
-  modulus = prime_1 * prime_2
-  coprimes_of = (prime_1 - 1) * (prime_2 - 1)
-  encrypt_exponent = coprime
-  decrypt_exponent = 0
-  public_keys = [encrypt_exponent, modulus]
-  for n in range(2, coprimes_of):
-    if (n * encrypt_exponent) % coprimes_of == 1:
-      decrypt_exponent = n
-      private_keys = [decrypt_exponent, modulus]
-      if public_keys == private_keys:
-        return jsonify({"error": "Private and public key were the same, use different numbers"})
-      else:
-        return jsonify({"publicKeys": public_keys, "privateKeys": private_keys})
-  if decrypt_exponent  == 0:
-    return jsonify(["Error", "No private decrypt exponent found."])
-  return jsonify(["Error", "Ended without valid return"])
-
+  keys = generate_keys(prime_1, prime_2, coprime)
+  if keys:
+    return jsonify({"publicKeys": keys["public_keys"], "privateKeys": keys["private_keys"]})
+  else:
+    return jsonify({"error": "No keys found, select different numbers (probably higher numbers)."})
+  
+  
+  
+  
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 # Public Key
 # Encrypt:
