@@ -7,26 +7,44 @@ from random import randint
 app = Flask(__name__, static_folder='views')
 
 
+# - - - - - - - - - - - - - - - -
+# To clean input turn line breaks into spaces
+# - - - - - - - - - - - - - - - -
+
+def line_break_to_space(my_string):
+  string_list = list(my_string)
+  for i in range(0, len(string_list)):
+    #print(str(i) + ": " + string_list[i] + " (" + str(ord(string_list[i])) + ")")
+    if ord(string_list[i]) == 13:
+      string_list[i] = " "
+    if ord(string_list[i]) == 10:
+      string_list[i] = ""
+  return "".join(string_list)
+
+
+
 # - - - - - - - - - - - - - - - - 
 # ** Offset **
 # This algorithm encrypts a message by getting a character's ASCII code, offestting it by a set amount, and returning the ASCII character that corresponds to the new number.
 # - - - - - - - - - - - - - - - - 
 
 def offsetEncrypt(myString, myOffset):
+  clean_string = line_break_to_space(myString)
   newString = ""
   intOffset = int(myOffset)
-  for c in myString:
-    print(ord(c))
+  count = 0
+  for c in clean_string:
     intC = ord(c)
     if intC > 126:
-      return "Error"
+      return str(count) + " Error: GREATER THAN 126 -3- '" + c + "'" + str(ord(c))
     if intC < 32:
-      return "Error"
+      return str(count) + " Error: LESS THAN 32 -3- '" + c + "'" + str(ord(c))
     newIntC = intC + intOffset
     if newIntC > 126:
       newIntC = newIntC - 95
     newChar = chr(newIntC)
     newString += newChar
+    count += 1
   return newString
   
 def offsetDecrypt(myEncodedString, myOffset):
@@ -84,6 +102,7 @@ def findSpaces(myPossibleStrings):
 # - - - - - - - - - - - - - - - - 
 
 def keyEncrypt(myString, myPassword):
+  clean_string = line_break_to_space(myString)
   newString = ""
   for c in myPassword:
     if ord(c) > 126:
@@ -91,7 +110,7 @@ def keyEncrypt(myString, myPassword):
   count = 0
   direction = 0
   passwordLength = len(myPassword)
-  for c in myString:
+  for c in clean_string:
     intC = ord(c)
     if intC > 126:
       return "Error"
@@ -169,7 +188,7 @@ def keyBruteForce(myEncodedString):
       keys = for_each_place(keys)
     
   for key in keys:
-    possible_message = keyDecrypt(myEncodedString, key)
+    possible_message = {"key": key, "message": keyDecrypt(myEncodedString, key)}
     new_strings.append(possible_message)
   return new_strings
 
@@ -177,8 +196,7 @@ def for_each_place(beginnings_of_keys):
   old_beginnings = beginnings_of_keys
   beginnings_of_keys = []
   for beginning in old_beginnings:
-    for character in range(97, 126):
-      print(beginning + chr(character))
+    for character in range(97, 123):
       beginnings_of_keys.append(beginning + chr(character))
   return beginnings_of_keys
 
@@ -198,10 +216,11 @@ def coprime(a, b):
   
 
 def publicKeyEncrypt(plaintext_message, public_keys):
+  clean_string = line_break_to_space(plaintext_message)
   newString = ""
   count = 0
-  messageLength = len(plaintext_message)
-  for c in plaintext_message:
+  messageLength = len(clean_string)
+  for c in clean_string:
     intC = ord(c)
     newIntC = ((intC**public_keys[0]) % public_keys[1])
     newString += str(newIntC)
