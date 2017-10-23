@@ -28,7 +28,11 @@
     <ol>
     {% for possible_message in possible_decrypted_messages %}
       <li>
-        {{ possible_message }}
+        <strong>Key: </strong>{{ possible_message["key"] }}
+        <br>
+        <strong>Message: </strong>{{ possible_message["message"] }}
+        <br>
+        <br>
       </li>
     {% endfor %}
     </ol>
