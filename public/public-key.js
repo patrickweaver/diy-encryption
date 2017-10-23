@@ -14,7 +14,7 @@ $(function() {
     return null;
   }
   
-  $( "#primes-under-50-list li" ).click(function() {
+  $( "#primes-under-30-list li" ).click(function() {
     var num = parseInt($( this ).html());
     // If there is no prime1 set number chosen to prime1:
     if (!prime1) {
