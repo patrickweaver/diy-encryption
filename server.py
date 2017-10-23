@@ -212,7 +212,7 @@ def coprime(a, b):
     return gcd(a, b) == 1
   
 
-def publicKeyEncrypt(plaintext_message, public_keys):
+def public_key_encrypt(plaintext_message, public_keys):
   clean_string = line_break_to_space(plaintext_message)
   newString = ""
   count = 0
@@ -228,7 +228,7 @@ def publicKeyEncrypt(plaintext_message, public_keys):
       newString += ", "
   return newString
   
-def publicKeyDecrypt(encrypted_message, private_keys):
+def public_key_decrypt(encrypted_message, private_keys):
   encrypted_array = []
   decrypted_string = ""
   count = 0
@@ -416,7 +416,7 @@ def shared_key_encrypt_post():
     encrypted_message = encrypted_message
     )
   else:
-    return render_template("shared-key.html")
+    return render_template("error.html")
 
   
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
@@ -448,7 +448,7 @@ def shared_key_decrypt_post():
     decrypted_message = decrypted_message
     )
   else:
-    return render_template("shared-key.html")
+    return render_template("error.html")
 
   
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
@@ -467,16 +467,21 @@ def shared_key_brute_force_get():
 @app.route("/shared-key/brute-force", methods=["POST"], strict_slashes=False)
 def shared_key_brute_force_post(): 
   message = request.form.get("message")
-  start_time = time.time()
-  possible_decrypted_messages = key_brute_force(message);
-  end_time = time.time()
-  decrypt_time = end_time - start_time
-  return render_template(
-    "shared_key_brute_force_post.html",
-    possible_decrypted_messages = possible_decrypted_messages,
-    possible_decrypted_messages_length = len(possible_decrypted_messages),
-    decrypt_time = round(decrypt_time, 5)
-  )
+  if message:
+    start_time = time.time()
+    possible_decrypted_messages = key_brute_force(message);
+    end_time = time.time()
+    decrypt_time = end_time - start_time
+    return render_template(
+      "shared_key_brute_force_post.html",
+      possible_decrypted_messages = possible_decrypted_messages,
+      possible_decrypted_messages_length = len(possible_decrypted_messages),
+      decrypt_time = round(decrypt_time, 5)
+    )
+  else:
+    return render_template(
+      "error.html"
+    )
 
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
@@ -493,88 +498,141 @@ def shared_key():
   )
 
 
-# - - - - - - - - - - - - - - - - 
-# Public Key:
+# - - - - - - - - - - - - - - - -
+# * * * * * * * *
+# * Public Key  *
+# * * * * * * * *
+# - - - - - - - - - - - - - - - -
 
-@app.route("/public-key/primes", strict_slashes=False)
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Public Key
+# Generate Keys:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+@app.route("/public-key/generate-keys", methods=["GET"], strict_slashes=False)
+def public_key_generate_keys_get():
+  explanation = ""
+  return render_template(
+    "public_key_generate_keys_get.html",
+    explanation = explanation
+  )
+
+
+@app.route("/public-key/primes", methods=["POST"], strict_slashes=False)
 def available_coprimes():
-  prime1 = int(request.args.get("prime1"))
-  prime2 = int(request.args.get("prime2"))
-  largerPrime = prime1
-  if (prime1 - prime2) < 0:
-    largerPrime = prime2
-  modulus = prime1 * prime2
-  coprimesOf = (prime1 - 1) * (prime2 - 1)
+  prime_1 = int(request.form.get("prime1"))
+  prime_2 = int(request.form.get("prime2"))
+  larger_prime = prime_1
+  if (prime_1 - prime_2) < 0:
+    larger_prime = prime_2
+  modulus = prime_1 * prime_2
+  coprimes_of = (prime_1 - 1) * (prime_2 - 1)
   coprimes = []
-  for n in range(largerPrime + 2, coprimesOf):
-    if coprime(n, coprimesOf):
+  for n in range(larger_prime + 2, coprimes_of):
+    if coprime(n, coprimes_of):
       coprimes.append(n)
   return jsonify(coprimes)
 
-@app.route("/public-key/keys", strict_slashes=False)
+@app.route("/public-key/keys", methods=["POST"], strict_slashes=False)
 def keys():
-  prime1 = int(request.args.get("prime1"))
-  prime2 = int(request.args.get("prime2"))
-  coprime = int(request.args.get("coprime"))
-  modulus = prime1 * prime2
-  coprimesOf = (prime1 - 1) * (prime2 - 1)
-  encryptExponent = coprime
-  decryptExponent = 0
-  publicKeys = [encryptExponent, modulus]
-  for n in range(2, coprimesOf):
-    if (n * encryptExponent) % coprimesOf == 1:
-      decryptExponent = n
-      privateKeys = [decryptExponent, modulus]
-      if publicKeys == privateKeys:
+  prime_1 = int(request.form.get("prime1"))
+  prime_2 = int(request.form.get("prime2"))
+  coprime = int(request.form.get("coprime"))
+  modulus = prime_1 * prime_2
+  coprimes_of = (prime_1 - 1) * (prime_2 - 1)
+  encrypt_exponent = coprime
+  decrypt_exponent = 0
+  public_keys = [encrypt_exponent, modulus]
+  for n in range(2, coprimes_of):
+    if (n * encrypt_exponent) % coprimes_of == 1:
+      decrypt_exponent = n
+      private_keys = [decrypt_exponent, modulus]
+      if public_keys == private_keys:
         return jsonify({"error": "Private and public key were the same, use different numbers"})
       else:
-        return jsonify({"publicKeys": publicKeys, "privateKeys": privateKeys})
-  if decryptExponent  == 0:
+        return jsonify({"publicKeys": public_keys, "privateKeys": private_keys})
+  if decrypt_exponent  == 0:
     return jsonify(["Error", "No private decrypt exponent found."])
   return jsonify(["Error", "Ended without valid return"])
 
-@app.route("/public-key/encrypt", strict_slashes=False)
-def public_key_encrypt():
-  publicKey = []
-  publicKey.append(int(request.args.get("public-key-1")))
-  publicKey.append(int(request.args.get("public-key-2")))
-  message = request.args.get("message")
-  if publicKey and message:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Public Key
+# Encrypt:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+@app.route("/public-key/encrypt", methods=["GET"], strict_slashes=False)
+def public_key_encrypt_get():
+  explanation = ""
+  return render_template(
+    "public_key_encrypt_get.html",
+    explanation = explanation
+  )
+
+@app.route("/public-key/encrypt", methods=["POST"], strict_slashes=False)
+def public_key_encrypt_post():
+  public_key = []
+  public_key.append(int(request.form.get("public-key-1")))
+  public_key.append(int(request.form.get("public-key-2")))
+  message = request.form.get("message")
+  if public_key and message:
     return render_template(
-    "public-key-encrypt-message.html",
-    public_keys = publicKey,
-    message = message,
-    encrypted_message = publicKeyEncrypt(message, publicKey)
+      "public_key_encrypt_post.html",
+      public_keys = public_key,
+      message = message,
+      encrypted_message = public_key_encrypt(message, public_key)
     )
   else:
-    return render_template("public-key.html")
-  
+    return render_template("error.html")
 
-@app.route("/public-key/decrypt", strict_slashes=False)
-def public_key_decrypt():
-  privateKeys = []
-  privateKeys.append(int(request.args.get("private-key-1")))
-  privateKeys.append(int(request.args.get("private-key-2")))
-  message = request.args.get("message")
-  if privateKeys and message:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Public Key
+# Decrypt:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+@app.route("/public-key/decrypt", methods=["GET"], strict_slashes=False)
+def public_key_decrypt_get():
+  explanation = ""
+  return render_template(
+    "public_key_decrypt_get.html",
+    explanation = explanation
+  )
+
+@app.route("/public-key/decrypt", methods=["POST"], strict_slashes=False)
+def public_key_decrypt_post():
+  private_keys = []
+  private_keys.append(int(request.form.get("private-key-1")))
+  private_keys.append(int(request.form.get("private-key-2")))
+  message = request.form.get("message")
+  if private_keys and message:
     return render_template(
-    "public-key-decrypt-message.html",
-    private_keys = privateKeys,
-    encrypted_message = message,
-    decrypted_message = publicKeyDecrypt(message, privateKeys)
+      "public_key_decrypt_post.html",
+      private_keys = private_keys,
+      encrypted_message = message,
+      decrypted_message = public_key_decrypt(message, private_keys)
     )
-  return
+  else:
+    return render_template(
+      "error.html"
+    )
+
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Public Key
+# Index:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 @app.route("/public-key", strict_slashes=False)
 def public_key():
   explanation = ""
   return render_template(
     "public-key.html",
-    explanation=explanation
+    explanation = explanation
   )
 
 # - - - - - - - - - - - - - - - -
-# Public Directory:
+# * * * * * * * * * * *
+# * Public Directory  *
+# * * * * * * * * * * *
+# - - - - - - - - - - - - - - - -
 
 @app.route('/<path:path>', strict_slashes=False)
 def send_static(path):
