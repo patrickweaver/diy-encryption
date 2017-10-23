@@ -21,6 +21,24 @@ def line_break_to_space(my_string):
       string_list[i] = ""
   return "".join(string_list)
 
+# - - - - - - - - - - - - - - - -
+# To find the decrypted strings with the most spaces
+# - - - - - - - - - - - - - - - -
+
+def find_spaces(my_possible_strings):
+  spaces_list = []
+  for i in range(0, len(my_possible_strings)):
+    spaces = 0
+    for c in my_possible_strings[i]:
+      if ord(c) == 32:
+        spaces += 1
+    spaces_list.append({"spaces": spaces, "index": i})
+                 
+  # my_list = sorted(my_list, key=lambda k: k['name'])
+  spaces_list = sorted(spaces_list, key=lambda k: k["spaces"], reverse=True)
+  most_likely_indexes = [spaces_list[0]["index"], spaces_list[1]["index"], spaces_list[2]["index"]]
+                 
+  return most_likely_indexes
 
 
 # - - - - - - - - - - - - - - - - 
@@ -28,70 +46,49 @@ def line_break_to_space(my_string):
 # This algorithm encrypts a message by getting a character's ASCII code, offestting it by a set amount, and returning the ASCII character that corresponds to the new number.
 # - - - - - - - - - - - - - - - - 
 
-def offsetEncrypt(myString, myOffset):
-  clean_string = line_break_to_space(myString)
-  newString = ""
-  intOffset = int(myOffset)
+def offset_encrypt(my_string, my_offset):
+  clean_string = line_break_to_space(my_string)
+  new_string = ""
+  int_offset = int(my_offset)
   count = 0
   for c in clean_string:
-    intC = ord(c)
-    if intC > 126:
-      return str(count) + " Error: GREATER THAN 126 -3- '" + c + "'" + str(ord(c))
-    if intC < 32:
-      return str(count) + " Error: LESS THAN 32 -3- '" + c + "'" + str(ord(c))
-    newIntC = intC + intOffset
-    if newIntC > 126:
-      newIntC = newIntC - 95
-    newChar = chr(newIntC)
-    newString += newChar
+    int_c = ord(c)
+    if int_c > 126:
+      return "Error: Greater than 126"
+    if int_c < 32:
+      return "Error: Less than 32"
+    new_int_c = int_c + int_offset
+    if new_int_c > 126:
+      new_int_c = new_int_c - 95
+    new_char = chr(new_int_c)
+    new_string += new_char
     count += 1
-  return newString
+  return new_string
   
-def offsetDecrypt(myEncodedString, myOffset):
-  newString = ""
-  intOffset = int(myOffset)
-  for c in myEncodedString:
-    intC = ord(c)
-    if intC > 126:
+def offset_decrypt(my_encoded_string, my_offset):
+  new_string = ""
+  int_offset = int(my_offset)
+  for c in my_encoded_string:
+    int_c = ord(c)
+    if int_c > 126:
       return "Error"
-    if intC < 32:
+    if int_c < 32:
       return "Error"
-    newIntC = intC - intOffset
-    if newIntC < 32:
-      newIntC = newIntC + 95
-    newChar = chr(newIntC)
-    newString += newChar
-  return newString
+    new_int_c = int_c - int_offset
+    if new_int_c < 32:
+      new_int_c = new_int_c + 95
+    new_char = chr(new_int_c)
+    new_string += new_char
+  return new_string
 
-def offsetBruteForce(myEncodedString):
-  newStrings = []
+def offset_brute_force(my_encoded_string):
+  new_strings = []
   # Do the following for each offest someone might have chosen
-  for possibleOffset in range(1, 95):
+  for possible_offset in range(1, 95):
     # Test that offset on each character of the enrypted message
-    newString = offsetDecrypt(myEncodedString, possibleOffset)
-    newStrings.append(newString)
-  return newStrings
-
-def findSpaces(myPossibleStrings):
-  maxSpaces = 0
-  mostLikelyIndex = 0
-  index = 0
-  for string in myPossibleStrings:
-    spaces = 0
-    ords = ""
-    for c in string:
-      a = ord(c)
-      ords += str(a) + "[" + chr(a) + "]"
-      
-      if ord(c) == 32:
-        spaces += 1
-        ords += "(!!)"
-      if spaces > maxSpaces:
-        maxSpaces = spaces
-        mostLikelyIndex = index
-      ords += ", "
-    index += 1
-  return mostLikelyIndex
+    new_string = offset_decrypt(my_encoded_string, possible_offset)
+    new_strings.append(new_string)
+  return new_strings
 
 
 
@@ -252,76 +249,129 @@ def publicKeyDecrypt(encrypted_message, private_keys):
     decrypted_string += chr(decrypted_int)
   return decrypted_string
 
+
+# - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - 
 # Routes
 # - - - - - - - - - - - - - - - - 
+# - - - - - - - - - - - - - - - -
 
 @app.route("/")
 def hello():
   return render_template('index.html')
 
+# - - - - - - - - - - - - - - - -
 # Offset:
+# - - - - - - - - - - - - - - - -
 
-@app.route("/offset/encrypt", strict_slashes=False)
-def offset_encrypt():
-  message = request.args.get("message")
-  offset = request.args.get("offset")
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Offset
+# Encrypt:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+@app.route("/offset/encrypt", methods=["GET"], strict_slashes=False)
+def offset_encrypt_get():
+  explanation = "Offset encryption converts each character in your message to it's corresponding ASCII code. " 
+  return render_template(
+    "offset_encrypt_get.html",
+    explanation = explanation
+  )
+
+@app.route("/offset/encrypt", methods=["POST"], strict_slashes=False)
+def offset_encrypt_post():
+  message = request.form.get("message")
+  offset = request.form.get("offset")
   if message and offset:
-    encrypted_message = offsetEncrypt(message, offset)
-    message = offsetDecrypt(encrypted_message, offset)
+    encrypted_message = offset_encrypt(message, offset)
+    message = offset_decrypt(encrypted_message, offset)
     return render_template(
-      "offset-encrypt-message.html",
+      "offset_encrypt_post.html",
       offset = offset,
       message = message,
       encrypted_message = encrypted_message
     )
-  else: 
-    return render_template("offset.html")
-
-@app.route("/offset/decrypt", strict_slashes=False)
-def offset_decrypt():
-  message = request.args.get("message")
-  offset = request.args.get("offset")
-  if message and offset:
-    decrypted_message = offsetDecrypt(message, offset)
+  else:
     return render_template(
-      "offset-decrypt-message.html",
+      "error.html",
+      error = "" + str(message) + " -- " + str(offset)
+    )
+  
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Offset
+# Decrypt:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+@app.route("/offset/decrypt", methods=["GET"], strict_slashes=False)
+def offset_decrypt_get():
+  explanation = "Offset encryption converts each character in your message to it's corresponding ASCII code. " 
+  return render_template(
+    "offset_decrypt_get.html",
+    explanation = explanation
+  )
+
+@app.route("/offset/decrypt", methods=["POST"], strict_slashes=False)
+def offset_decrypt_post():
+  message = request.form.get("message")
+  offset = request.form.get("offset")
+  if message and offset:
+    decrypted_message = offset_decrypt(message, offset)
+    return render_template(
+      "offset_decrypt_post.html",
       offset = offset,
       message = message,
       decrypted_message = decrypted_message
     )
   else: 
-    return render_template("offset.html")
+    return render_template(
+      "error.html",
+      error = ""
+    )
+
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Offset
+# Brute Force:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+ 
+@app.route("/offset/brute-force", methods=["GET"], strict_slashes=False)
+def offset_brute_force_get():
+  explanation = "Offset encryption converts each character in your message to it's corresponding ASCII code. " 
+  return render_template(
+    "offset_brute_force_get.html",
+    explanation=explanation
+  )  
   
-@app.route("/offset/brute-force", strict_slashes=False)
-def offset_brute_force_decrypt():
-  message = request.args.get("message")
+@app.route("/offset/brute-force", methods=["POST"], strict_slashes=False)
+def offset_brute_force_decrypt_post():
+  message = request.form.get("message")
   if message:
     start_time = time.time()
-    possible_decrypted_messages = offsetBruteForce(message)
+    possible_decrypted_messages = offset_brute_force(message)
     end_time = time.time()
     decrypt_time = end_time - start_time
-    most_likely_index = findSpaces(possible_decrypted_messages)
+    most_likely_indexes = find_spaces(possible_decrypted_messages)
+    most_likely_messages = []
+    for index in most_likely_indexes:
+      most_likely_messages.append(possible_decrypted_messages[index])
+    
     return render_template(
-      "offset-brute-force.html",
+      "offset_brute_force_post.html",
       message = message,
-      decrypt_time = decrypt_time,
-      most_likely_offset = most_likely_index + 1,
-      most_likely = possible_decrypted_messages[most_likely_index],
+      decrypt_time = round(decrypt_time, 5),
+      most_likely_offsets = most_likely_indexes,
+      most_likely_messages = most_likely_messages,
       possible_decrypted_messages = possible_decrypted_messages
     )
   else:
-    return render_tempalte("offset.html")
+    return render_template(
+      "error.html",
+      error = ""
+    )
 
 @app.route("/offset", strict_slashes=False)
-def offset():
-  
-  explanation = "Offset encryption converts each character in your message to it's corresponding ASCII code. "
-  
-  
+def offset():  
+  explanation = "Offset encryption converts each character in your message to it's corresponding ASCII code. " 
   return render_template(
     "offset.html",
-    explanation=explanation
+    explanation = explanation
   )
 
 # - - - - - - - - - - - - - - - -
@@ -374,7 +424,7 @@ def shared_key_brute_force():
   "shared-key-brute-force.html",
   possible_decrypted_messages=possible_decrypted_messages,
   possible_decrypted_messages_length = len(possible_decrypted_messages),
-  decrypt_time = decrypt_time
+  decrypt_time = round(decrypt_time, 5)
   )
   
 @app.route("/shared-key", strict_slashes=False)

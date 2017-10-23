@@ -17,12 +17,22 @@
     <h4>
       95 possible messages took {{ decrypt_time }} seconds to decrypt.
     </h4>
-    <h4>
-      Original message is probably offset {{ most_likely_offset }}:
-    </h4>
-    <p>
-      {{  most_likely }}
-    </p>
+    <div class="best-guess">
+      <h4>
+        Original message is probably one of these:
+      </h4>
+      <p>   
+        {% for i in range(0, 3)  %}
+          {{ most_likely_offsets[i] + 1 }}: {{ most_likely_messages[i] }}<br>
+        {% endfor %}
+      </p>
+    </div>
+    <div class="best-guess-button">
+      <button>
+        Best Guesses 🎰
+      </button>
+    </div>
+
     
     <hr/>
     <ol>

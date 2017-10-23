@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %} 
+  <h2>
+    Offset: Encrypt
+  </h2>
+
+  <main>
+    <div id="encryption">
+      <div id="encrypt">
+        <form action="/offset/encrypt" method="post">
+          <label>Message to Encrypt:</label>
+          <br>
+          <textarea id="encrypt-message" name="message"></textarea>
+          <br>
+          <label>Offset Number between 1 and 95:</label>
+          <input type="number" id="encrypt-offset" name="offset">
+          <br>
+          <button value="submit">Encrypt</button>
+        </form>
+      </div>
+    </div>
+    <div id="explanation">
+      {{ explanation }}
+    </div>
+    
+  </main>
+{% endblock %}

@@ -29,6 +29,10 @@ h1 {
   color: pink;
 }
 
+h4 {
+  margin: .25em 0;
+}
+
 .bold {
   font-weight: bold;
 }
@@ -139,4 +143,11 @@ div#error {
   padding: 1em;
   margin: 1em 0;
   font-size: 150%;
+}
+
+.best-guess {
+  display: none;
+  border: 2px solid #028E6D;
+  background-color: #E6F6F2;
+  padding: .5em;
 }
