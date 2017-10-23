@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block body %} 
+
+  <h2>
+    Shared Key
+  </h2>
+
+  <main>
+    <div id="encryption">
+      <div id="decrypt-form">
+        <form action="/shared-key/decrypt" method="post">
+          <label>Message to Decrypt:</label>
+          <br>
+          <textarea id="decrypt-message" name="message"></textarea>
+          <br>
+          <label>Key:</label>
+          <input type="text" class="shared-key" name="key1" maxlength="1" pattern="[a-z]{1}">
+          <input type="text" class="shared-key" name="key2" maxlength="1" pattern="[a-z]{1}">
+          <input type="text" class="shared-key" name="key3" maxlength="1" pattern="[a-z]{1}">
+          <br>
+          <button value="submit">Decrypt</button>
+        </form>             
+      </div>
+    </div>
+    <div id="explanation">
+      {{ explanation }}
+    </div>
+
+  </main>
+
+{% endblock %}

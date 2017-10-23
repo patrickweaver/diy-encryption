@@ -21,6 +21,24 @@ def line_break_to_space(my_string):
       string_list[i] = ""
   return "".join(string_list)
 
+# - - - - - - - - - - - - - - - -
+# To find the decrypted strings with the most spaces
+# - - - - - - - - - - - - - - - -
+
+def find_spaces(my_possible_strings):
+  spaces_list = []
+  for i in range(0, len(my_possible_strings)):
+    spaces = 0
+    for c in my_possible_strings[i]:
+      if ord(c) == 32:
+        spaces += 1
+    spaces_list.append({"spaces": spaces, "index": i})
+                 
+  # my_list = sorted(my_list, key=lambda k: k['name'])
+  spaces_list = sorted(spaces_list, key=lambda k: k["spaces"], reverse=True)
+  most_likely_indexes = [spaces_list[0]["index"], spaces_list[1]["index"], spaces_list[2]["index"]]
+                 
+  return most_likely_indexes
 
 
 # - - - - - - - - - - - - - - - - 
@@ -28,70 +46,49 @@ def line_break_to_space(my_string):
 # This algorithm encrypts a message by getting a character's ASCII code, offestting it by a set amount, and returning the ASCII character that corresponds to the new number.
 # - - - - - - - - - - - - - - - - 
 
-def offsetEncrypt(myString, myOffset):
-  clean_string = line_break_to_space(myString)
-  newString = ""
-  intOffset = int(myOffset)
+def offset_encrypt(my_string, my_offset):
+  clean_string = line_break_to_space(my_string)
+  new_string = ""
+  int_offset = int(my_offset)
   count = 0
   for c in clean_string:
-    intC = ord(c)
-    if intC > 126:
-      return str(count) + " Error: GREATER THAN 126 -3- '" + c + "'" + str(ord(c))
-    if intC < 32:
-      return str(count) + " Error: LESS THAN 32 -3- '" + c + "'" + str(ord(c))
-    newIntC = intC + intOffset
-    if newIntC > 126:
-      newIntC = newIntC - 95
-    newChar = chr(newIntC)
-    newString += newChar
+    int_c = ord(c)
+    if int_c > 126:
+      return "Error: Greater than 126"
+    if int_c < 32:
+      return "Error: Less than 32"
+    new_int_c = int_c + int_offset
+    if new_int_c > 126:
+      new_int_c = new_int_c - 95
+    new_char = chr(new_int_c)
+    new_string += new_char
     count += 1
-  return newString
+  return new_string
   
-def offsetDecrypt(myEncodedString, myOffset):
-  newString = ""
-  intOffset = int(myOffset)
-  for c in myEncodedString:
-    intC = ord(c)
-    if intC > 126:
+def offset_decrypt(my_encoded_string, my_offset):
+  new_string = ""
+  int_offset = int(my_offset)
+  for c in my_encoded_string:
+    int_c = ord(c)
+    if int_c > 126:
       return "Error"
-    if intC < 32:
+    if int_c < 32:
       return "Error"
-    newIntC = intC - intOffset
-    if newIntC < 32:
-      newIntC = newIntC + 95
-    newChar = chr(newIntC)
-    newString += newChar
-  return newString
+    new_int_c = int_c - int_offset
+    if new_int_c < 32:
+      new_int_c = new_int_c + 95
+    new_char = chr(new_int_c)
+    new_string += new_char
+  return new_string
 
-def offsetBruteForce(myEncodedString):
-  newStrings = []
+def offset_brute_force(my_encoded_string):
+  new_strings = []
   # Do the following for each offest someone might have chosen
-  for possibleOffset in range(1, 95):
+  for possible_offset in range(1, 95):
     # Test that offset on each character of the enrypted message
-    newString = offsetDecrypt(myEncodedString, possibleOffset)
-    newStrings.append(newString)
-  return newStrings
-
-def findSpaces(myPossibleStrings):
-  maxSpaces = 0
-  mostLikelyIndex = 0
-  index = 0
-  for string in myPossibleStrings:
-    spaces = 0
-    ords = ""
-    for c in string:
-      a = ord(c)
-      ords += str(a) + "[" + chr(a) + "]"
-      
-      if ord(c) == 32:
-        spaces += 1
-        ords += "(!!)"
-      if spaces > maxSpaces:
-        maxSpaces = spaces
-        mostLikelyIndex = index
-      ords += ", "
-    index += 1
-  return mostLikelyIndex
+    new_string = offset_decrypt(my_encoded_string, possible_offset)
+    new_strings.append(new_string)
+  return new_strings
 
 
 
@@ -101,80 +98,80 @@ def findSpaces(myPossibleStrings):
 # This algorithm encrypts a message by getting a character's ASCII code, offsetting it by the ASCII code of a character in the key. Each character in the message is offset by the ASCII code of the next character in they key. If the message is longer than the key the ASCII codes from the key are repeated. 
 # - - - - - - - - - - - - - - - - 
 
-def keyEncrypt(myString, myPassword):
-  clean_string = line_break_to_space(myString)
-  newString = ""
-  for c in myPassword:
+def key_encrypt(my_string, my_key):
+  clean_string = line_break_to_space(my_string)
+  new_string = ""
+  for c in my_key:
     if ord(c) > 126:
       return "Error"
   count = 0
   direction = 0
-  passwordLength = len(myPassword)
+  key_length = len(my_key)
   for c in clean_string:
-    intC = ord(c)
-    if intC > 126:
+    int_c = ord(c)
+    if int_c > 126:
       return "Error"
-    if intC < 32:
+    if int_c < 32:
       return "Error"
-    offset = ord(myPassword[count])
+    offset = ord(my_key[count])
     if direction == 0:
-      newIntC = intC + offset
+      new_int_c = int_c + offset
     else:
-      newIntC = intC - offset
+      new_int_c = int_c - offset
     direction = direction * -1 + 1
-    if newIntC > 126:
-      newIntC = newIntC - 95
-      if newIntC > 126:
-        newIntC = newIntC - 95
-    if newIntC < 32:
-      newIntC = newIntC + 95
-      if newIntC < 32:
-        newIntC = newIntC + 95
-    newChar = chr(newIntC)
-    newString += newChar
+    if new_int_c > 126:
+      new_int_c = new_int_c - 95
+      if new_int_c > 126:
+        new_int_c = new_int_c - 95
+    if new_int_c < 32:
+      new_int_c = new_int_c + 95
+      if new_int_c < 32:
+        new_int_c = new_int_c + 95
+    new_char = chr(new_int_c)
+    new_string += new_char
     
     count += 1
-    if count == passwordLength:
+    if count == key_length:
       count = 0
-  return newString
+  return new_string
 
-def keyDecrypt(myEncodedString, myPassword):
-  newString = ""
-  for c in myPassword:
+def key_decrypt(my_encoded_string, my_key):
+  new_string = ""
+  for c in my_key:
     if ord(c) > 126:
       return "Error"
   count = 0
   direction = 0
-  passwordLength = len(myPassword)
-  for c in myEncodedString:
-    intC = ord(c)
-    if intC > 126:
+  key_length = len(my_key)
+  for c in my_encoded_string:
+    int_c = ord(c)
+    if int_c > 126:
       return "Error"
-    if intC < 32:
+    if int_c < 32:
       return "Error"
-    offset = ord(myPassword[count])
+    offset = ord(my_key[count])
     if direction == 0:
-      newIntC = intC - offset
+      new_int_c = int_c - offset
     else:
-      newIntC = intC + offset
+      new_int_c = int_c + offset
     direction = direction * -1 + 1
-    if newIntC < 32:
-      newIntC = newIntC + 95
-      if newIntC < 32:
-        newIntC = newIntC + 95
-    if newIntC > 126:
-      newIntC = newIntC - 95
-      if newIntC > 126:
-        newIntC = newIntC - 95
-    newChar = chr(newIntC)
-    newString += newChar
+    if new_int_c < 32:
+      new_int_c = new_int_c + 95
+      if new_int_c < 32:
+        new_int_c = new_int_c + 95
+    if new_int_c > 126:
+      new_int_c = new_int_c - 95
+      if new_int_c > 126:
+        new_int_c = new_int_c - 95
+    new_char = chr(new_int_c)
+    new_string += new_char
     
     count += 1
-    if count == passwordLength:
+    if count == key_length:
       count = 0
-  return newString
+  return new_string
 
-def keyBruteForce(myEncodedString):
+def key_brute_force(my_encoded_string):
   new_strings = []
   keys_array = []
   keys = []
@@ -188,7 +185,7 @@ def keyBruteForce(myEncodedString):
       keys = for_each_place(keys)
     
   for key in keys:
-    possible_message = {"key": key, "message": keyDecrypt(myEncodedString, key)}
+    possible_message = {"key": key, "message": key_decrypt(my_encoded_string, key)}
     new_strings.append(possible_message)
   return new_strings
 
@@ -215,7 +212,7 @@ def coprime(a, b):
     return gcd(a, b) == 1
   
 
-def publicKeyEncrypt(plaintext_message, public_keys):
+def public_key_encrypt(plaintext_message, public_keys):
   clean_string = line_break_to_space(plaintext_message)
   newString = ""
   count = 0
@@ -231,7 +228,7 @@ def publicKeyEncrypt(plaintext_message, public_keys):
       newString += ", "
   return newString
   
-def publicKeyDecrypt(encrypted_message, private_keys):
+def public_key_decrypt(encrypted_message, private_keys):
   encrypted_array = []
   decrypted_string = ""
   count = 0
@@ -252,222 +249,390 @@ def publicKeyDecrypt(encrypted_message, private_keys):
     decrypted_string += chr(decrypted_int)
   return decrypted_string
 
+
+# - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - 
 # Routes
 # - - - - - - - - - - - - - - - - 
+# - - - - - - - - - - - - - - - -
 
 @app.route("/")
 def hello():
   return render_template('index.html')
 
-# Offset:
+# - - - - - - - - - - - - - - - -
+# * * * * * *
+# * Offset  *
+# * * * * * *
+# - - - - - - - - - - - - - - - -
 
-@app.route("/offset/encrypt", strict_slashes=False)
-def offset_encrypt():
-  message = request.args.get("message")
-  offset = request.args.get("offset")
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Offset
+# Encrypt:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+@app.route("/offset/encrypt", methods=["GET"], strict_slashes=False)
+def offset_encrypt_get():
+  explanation = "Offset encryption converts each character in your message to it's corresponding ASCII code. " 
+  return render_template(
+    "offset_encrypt_get.html",
+    explanation = explanation
+  )
+
+@app.route("/offset/encrypt", methods=["POST"], strict_slashes=False)
+def offset_encrypt_post():
+  message = request.form.get("message")
+  offset = request.form.get("offset")
   if message and offset:
-    encrypted_message = offsetEncrypt(message, offset)
-    message = offsetDecrypt(encrypted_message, offset)
+    encrypted_message = offset_encrypt(message, offset)
+    message = offset_decrypt(encrypted_message, offset)
     return render_template(
-      "offset-encrypt-message.html",
+      "offset_encrypt_post.html",
       offset = offset,
       message = message,
       encrypted_message = encrypted_message
     )
-  else: 
-    return render_template("offset.html")
-
-@app.route("/offset/decrypt", strict_slashes=False)
-def offset_decrypt():
-  message = request.args.get("message")
-  offset = request.args.get("offset")
-  if message and offset:
-    decrypted_message = offsetDecrypt(message, offset)
+  else:
     return render_template(
-      "offset-decrypt-message.html",
+      "error.html",
+      error = "" + str(message) + " -- " + str(offset)
+    )
+  
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Offset
+# Decrypt:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+@app.route("/offset/decrypt", methods=["GET"], strict_slashes=False)
+def offset_decrypt_get():
+  explanation = "Offset encryption converts each character in your message to it's corresponding ASCII code. " 
+  return render_template(
+    "offset_decrypt_get.html",
+    explanation = explanation
+  )
+
+@app.route("/offset/decrypt", methods=["POST"], strict_slashes=False)
+def offset_decrypt_post():
+  message = request.form.get("message")
+  offset = request.form.get("offset")
+  if message and offset:
+    decrypted_message = offset_decrypt(message, offset)
+    return render_template(
+      "offset_decrypt_post.html",
       offset = offset,
       message = message,
       decrypted_message = decrypted_message
     )
   else: 
-    return render_template("offset.html")
+    return render_template(
+      "error.html",
+      error = ""
+    )
+
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Offset
+# Brute Force:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+ 
+@app.route("/offset/brute-force", methods=["GET"], strict_slashes=False)
+def offset_brute_force_get():
+  explanation = "Offset encryption converts each character in your message to it's corresponding ASCII code. " 
+  return render_template(
+    "offset_brute_force_get.html",
+    explanation=explanation
+  )  
   
-@app.route("/offset/brute-force", strict_slashes=False)
-def offset_brute_force_decrypt():
-  message = request.args.get("message")
+@app.route("/offset/brute-force", methods=["POST"], strict_slashes=False)
+def offset_brute_force_decrypt_post():
+  message = request.form.get("message")
   if message:
     start_time = time.time()
-    possible_decrypted_messages = offsetBruteForce(message)
+    possible_decrypted_messages = offset_brute_force(message)
     end_time = time.time()
     decrypt_time = end_time - start_time
-    most_likely_index = findSpaces(possible_decrypted_messages)
+    most_likely_indexes = find_spaces(possible_decrypted_messages)
+    most_likely_messages = []
+    for index in most_likely_indexes:
+      most_likely_messages.append(possible_decrypted_messages[index])
+    
     return render_template(
-      "offset-brute-force.html",
+      "offset_brute_force_post.html",
       message = message,
-      decrypt_time = decrypt_time,
-      most_likely_offset = most_likely_index + 1,
-      most_likely = possible_decrypted_messages[most_likely_index],
+      decrypt_time = round(decrypt_time, 5),
+      most_likely_offsets = most_likely_indexes,
+      most_likely_messages = most_likely_messages,
       possible_decrypted_messages = possible_decrypted_messages
     )
   else:
-    return render_tempalte("offset.html")
+    return render_template(
+      "error.html",
+      error = ""
+    )
+  
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Offset
+# Index:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 @app.route("/offset", strict_slashes=False)
-def offset():
-  
-  explanation = "Offset encryption converts each character in your message to it's corresponding ASCII code. "
-  
-  
+def offset():  
+  explanation = "Offset encryption converts each character in your message to it's corresponding ASCII code. " 
   return render_template(
     "offset.html",
-    explanation=explanation
+    explanation = explanation
   )
 
 # - - - - - - - - - - - - - - - -
-# Shared Key:
+# * * * * * * * *
+# * Shared Key  *
+# * * * * * * * *
+# - - - - - - - - - - - - - - - -
 
-@app.route("/shared-key/encrypt", strict_slashes=False)
-def shared_key_encrypt():
-  message = request.args.get("message")
-  key1 = request.args.get("key1")
-  key2 = request.args.get("key2")
-  key3 = request.args.get("key3")
-  key = key1 + key2 + key3
-  if message and key:
-    encrypted_message = keyEncrypt(message, key)
-    return render_template(
-    "shared-key-encrypt-message.html",
-    key=key,
-    message=message,
-    encrypted_message=encrypted_message
-    )
-  else:
-    return render_template("shared-key.html")
-  
-@app.route("/shared-key/decrypt", strict_slashes=False)
-def shared_key_decrypt():
-  message = request.args.get("message")
-  key1 = request.args.get("key1")
-  key2 = request.args.get("key2")
-  key3 = request.args.get("key3")
-  key = key1 + key2 + key3
-  if message and key:
-    decrypted_message = keyDecrypt(message, key)
-    return render_template(
-    "shared-key-decrypt-message.html",
-    key=key,
-    message=message,
-    decrypted_message=decrypted_message
-    )
-  else:
-    return render_template("shared-key.html")
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Shared Key
+# Encrypt:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
-@app.route("/shared-key/brute-force", strict_slashes=False)
-def shared_key_brute_force(): 
-  message = request.args.get("message")
-  start_time = time.time()
-  possible_decrypted_messages = keyBruteForce(message);
-  end_time = time.time()
-  decrypt_time = end_time - start_time
+@app.route("/shared-key/encrypt", methods=["GET"], strict_slashes=False)
+def shared_key_encrypt_get():
+  explanation = ""
   return render_template(
-  "shared-key-brute-force.html",
-  possible_decrypted_messages=possible_decrypted_messages,
-  possible_decrypted_messages_length = len(possible_decrypted_messages),
-  decrypt_time = decrypt_time
+    "shared_key_encrypt_get.html",
+    explanation = explanation
   )
+
+@app.route("/shared-key/encrypt", methods=["POST"], strict_slashes=False)
+def shared_key_encrypt_post():
+  message = request.form.get("message")
+  key1 = request.form.get("key1")
+  key2 = request.form.get("key2")
+  key3 = request.form.get("key3")
+  key = key1 + key2 + key3
+  if message and key:
+    encrypted_message = key_encrypt(message, key)
+    return render_template(
+    "shared_key_encrypt_post.html",
+    key = key,
+    message = message,
+    encrypted_message = encrypted_message
+    )
+  else:
+    return render_template("error.html")
+
+  
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Shared Key
+# Decrypt:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+@app.route("/shared-key/decrypt", methods=["GET"], strict_slashes=False)
+def shared_key_decrypt_get():
+  explanation = ""
+  return render_template(
+    "shared_key_decrypt_get.html",
+    explanation = explanation
+  )  
+  
+@app.route("/shared-key/decrypt", methods=["POST"], strict_slashes=False)
+def shared_key_decrypt_post():
+  message = request.form.get("message")
+  key1 = request.form.get("key1")
+  key2 = request.form.get("key2")
+  key3 = request.form.get("key3")
+  key = key1 + key2 + key3
+  if message and key:
+    decrypted_message = key_decrypt(message, key)
+    return render_template(
+    "shared_key_decrypt_post.html",
+    key = key,
+    message = message,
+    decrypted_message = decrypted_message
+    )
+  else:
+    return render_template("error.html")
+
+  
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Shared Key
+# Brute Force:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+@app.route("/shared-key/brute-force", methods=["GET"], strict_slashes=False)
+def shared_key_brute_force_get():
+  explanation = ""
+  return render_template(
+    "shared_key_brute_force_get.html",
+    explanation = explanation
+  )  
+  
+@app.route("/shared-key/brute-force", methods=["POST"], strict_slashes=False)
+def shared_key_brute_force_post(): 
+  message = request.form.get("message")
+  if message:
+    start_time = time.time()
+    possible_decrypted_messages = key_brute_force(message);
+    end_time = time.time()
+    decrypt_time = end_time - start_time
+    return render_template(
+      "shared_key_brute_force_post.html",
+      possible_decrypted_messages = possible_decrypted_messages,
+      possible_decrypted_messages_length = len(possible_decrypted_messages),
+      decrypt_time = round(decrypt_time, 5)
+    )
+  else:
+    return render_template(
+      "error.html"
+    )
+
+
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Shared Key
+# Index:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
   
 @app.route("/shared-key", strict_slashes=False)
 def shared_key():
   explanation = ""
   return render_template(
     "shared-key.html",
-    explanation=explanation
+    explanation = explanation
   )
 
 
-# - - - - - - - - - - - - - - - - 
-# Public Key:
+# - - - - - - - - - - - - - - - -
+# * * * * * * * *
+# * Public Key  *
+# * * * * * * * *
+# - - - - - - - - - - - - - - - -
 
-@app.route("/public-key/primes", strict_slashes=False)
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Public Key
+# Generate Keys:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+@app.route("/public-key/generate-keys", methods=["GET"], strict_slashes=False)
+def public_key_generate_keys_get():
+  explanation = ""
+  return render_template(
+    "public_key_generate_keys_get.html",
+    explanation = explanation
+  )
+
+
+@app.route("/public-key/primes", methods=["POST"], strict_slashes=False)
 def available_coprimes():
-  prime1 = int(request.args.get("prime1"))
-  prime2 = int(request.args.get("prime2"))
-  largerPrime = prime1
-  if (prime1 - prime2) < 0:
-    largerPrime = prime2
-  modulus = prime1 * prime2
-  coprimesOf = (prime1 - 1) * (prime2 - 1)
+  prime_1 = int(request.form.get("prime1"))
+  prime_2 = int(request.form.get("prime2"))
+  larger_prime = prime_1
+  if (prime_1 - prime_2) < 0:
+    larger_prime = prime_2
+  modulus = prime_1 * prime_2
+  coprimes_of = (prime_1 - 1) * (prime_2 - 1)
   coprimes = []
-  for n in range(largerPrime + 2, coprimesOf):
-    if coprime(n, coprimesOf):
+  for n in range(larger_prime + 2, coprimes_of):
+    if coprime(n, coprimes_of):
       coprimes.append(n)
   return jsonify(coprimes)
 
-@app.route("/public-key/keys", strict_slashes=False)
+@app.route("/public-key/keys", methods=["POST"], strict_slashes=False)
 def keys():
-  prime1 = int(request.args.get("prime1"))
-  prime2 = int(request.args.get("prime2"))
-  coprime = int(request.args.get("coprime"))
-  modulus = prime1 * prime2
-  coprimesOf = (prime1 - 1) * (prime2 - 1)
-  encryptExponent = coprime
-  decryptExponent = 0
-  publicKeys = [encryptExponent, modulus]
-  for n in range(2, coprimesOf):
-    if (n * encryptExponent) % coprimesOf == 1:
-      decryptExponent = n
-      privateKeys = [decryptExponent, modulus]
-      if publicKeys == privateKeys:
+  prime_1 = int(request.form.get("prime1"))
+  prime_2 = int(request.form.get("prime2"))
+  coprime = int(request.form.get("coprime"))
+  modulus = prime_1 * prime_2
+  coprimes_of = (prime_1 - 1) * (prime_2 - 1)
+  encrypt_exponent = coprime
+  decrypt_exponent = 0
+  public_keys = [encrypt_exponent, modulus]
+  for n in range(2, coprimes_of):
+    if (n * encrypt_exponent) % coprimes_of == 1:
+      decrypt_exponent = n
+      private_keys = [decrypt_exponent, modulus]
+      if public_keys == private_keys:
         return jsonify({"error": "Private and public key were the same, use different numbers"})
       else:
-        return jsonify({"publicKeys": publicKeys, "privateKeys": privateKeys})
-  if decryptExponent  == 0:
+        return jsonify({"publicKeys": public_keys, "privateKeys": private_keys})
+  if decrypt_exponent  == 0:
     return jsonify(["Error", "No private decrypt exponent found."])
   return jsonify(["Error", "Ended without valid return"])
 
-@app.route("/public-key/encrypt", strict_slashes=False)
-def public_key_encrypt():
-  publicKey = []
-  publicKey.append(int(request.args.get("public-key-1")))
-  publicKey.append(int(request.args.get("public-key-2")))
-  message = request.args.get("message")
-  if publicKey and message:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Public Key
+# Encrypt:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+@app.route("/public-key/encrypt", methods=["GET"], strict_slashes=False)
+def public_key_encrypt_get():
+  explanation = ""
+  return render_template(
+    "public_key_encrypt_get.html",
+    explanation = explanation
+  )
+
+@app.route("/public-key/encrypt", methods=["POST"], strict_slashes=False)
+def public_key_encrypt_post():
+  public_key = []
+  public_key.append(int(request.form.get("public-key-1")))
+  public_key.append(int(request.form.get("public-key-2")))
+  message = request.form.get("message")
+  if public_key and message:
     return render_template(
-    "public-key-encrypt-message.html",
-    public_keys = publicKey,
-    message = message,
-    encrypted_message = publicKeyEncrypt(message, publicKey)
+      "public_key_encrypt_post.html",
+      public_keys = public_key,
+      message = message,
+      encrypted_message = public_key_encrypt(message, public_key)
     )
   else:
-    return render_template("public-key.html")
-  
+    return render_template("error.html")
 
-@app.route("/public-key/decrypt", strict_slashes=False)
-def public_key_decrypt():
-  privateKeys = []
-  privateKeys.append(int(request.args.get("private-key-1")))
-  privateKeys.append(int(request.args.get("private-key-2")))
-  message = request.args.get("message")
-  if privateKeys and message:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Public Key
+# Decrypt:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+@app.route("/public-key/decrypt", methods=["GET"], strict_slashes=False)
+def public_key_decrypt_get():
+  explanation = ""
+  return render_template(
+    "public_key_decrypt_get.html",
+    explanation = explanation
+  )
+
+@app.route("/public-key/decrypt", methods=["POST"], strict_slashes=False)
+def public_key_decrypt_post():
+  private_keys = []
+  private_keys.append(int(request.form.get("private-key-1")))
+  private_keys.append(int(request.form.get("private-key-2")))
+  message = request.form.get("message")
+  if private_keys and message:
     return render_template(
-    "public-key-decrypt-message.html",
-    private_keys = privateKeys,
-    encrypted_message = message,
-    decrypted_message = publicKeyDecrypt(message, privateKeys)
+      "public_key_decrypt_post.html",
+      private_keys = private_keys,
+      encrypted_message = message,
+      decrypted_message = public_key_decrypt(message, private_keys)
     )
-  return
+  else:
+    return render_template(
+      "error.html"
+    )
+
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Public Key
+# Index:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 @app.route("/public-key", strict_slashes=False)
 def public_key():
   explanation = ""
   return render_template(
     "public-key.html",
-    explanation=explanation
+    explanation = explanation
   )
 
 # - - - - - - - - - - - - - - - -
-# Public Directory:
+# * * * * * * * * * * *
+# * Public Directory  *
+# * * * * * * * * * * *
+# - - - - - - - - - - - - - - - -
 
 @app.route('/<path:path>', strict_slashes=False)
 def send_static(path):

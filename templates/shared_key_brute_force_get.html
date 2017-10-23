@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %} 
+
+  <h2>
+    Shared Key
+  </h2>
+
+  <main>
+    <div id="encryption">
+      <div id="brute-force-form">
+        <form action="/shared-key/brute-force" method="post">
+          <label>Message to Decrypt:</label>
+          <br>
+          <textarea id="decrypt-message" name="message"></textarea>
+          <br>
+          <button value="submit">Brute Force Decrypt</button>
+
+        </form>
+      </div>
+    </div>
+    <div id="explanation">
+      {{ explanation }}
+    </div>
+
+  </main>
+
+{% endblock %}

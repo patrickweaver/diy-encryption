@@ -6,50 +6,9 @@
   </h2>
 
   <main>
-    <div id="encryption">
-      <form action="/shared-key/encrypt">
-        <label>Message to Encrypt:</label>
-        <br>
-        <textarea id="encrypt-message" name="message"></textarea>
-        <br>
-        <label>Key:</label>
-        <input type="text" class="shared-key" name="key1" maxlength="1" pattern="[a-z]{1}">
-        <input type="text" class="shared-key" name="key2" maxlength="1" pattern="[a-z]{1}">
-        <input type="text" class="shared-key" name="key3" maxlength="1" pattern="[a-z]{1}">
-        <br>
-        <button value="submit">Encrypt</button>
-
-      </form>
-      <br>
-      <br>
-      <form action="/shared-key/decrypt">
-        <label>Message to Decrypt:</label>
-        <br>
-        <textarea id="decrypt-message" name="message"></textarea>
-        <br>
-        <label>Key:</label>
-        <input type="text" class="shared-key" name="key1" maxlength="1" pattern="[a-z]{1}">
-        <input type="text" class="shared-key" name="key2" maxlength="1" pattern="[a-z]{1}">
-        <input type="text" class="shared-key" name="key3" maxlength="1" pattern="[a-z]{1}">
-        <br>
-        <button value="submit">Decrypt</button>
-
-      </form>
-      <br>
-      <br>
-      <form action="/shared-key/brute-force">
-        <label>Message to Decrypt:</label>
-        <br>
-        <textarea id="decrypt-message" name="message"></textarea>
-        <br>
-        <button value="submit">Brute Force Decrypt</button>
-
-      </form>
-    </div>
-    <div id="explanation">
-      {{ explanation }}
-    </div>
-
+    <a href="/shared-key/encrypt">Encrypt</a>
+    <a href="/shared-key/decrypt">Decrypt</a>
+    <a href="/shared-key/brute-force">Brute Force Decrypt</a>
   </main>
 
 {% endblock %}

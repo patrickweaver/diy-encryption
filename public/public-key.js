@@ -64,6 +64,7 @@ $(function() {
       });
       $.ajax({
         url: "/public-key/primes",
+        method: "POST",
         data: {
           prime1: prime1,
           prime2: prime2
@@ -126,6 +127,7 @@ $(function() {
       });
       $.ajax({
         url: "/public-key/keys",
+        method: "POST",
         data: {
           prime1: prime1,
           prime2: prime2,
@@ -172,11 +174,5 @@ $(function() {
       console.log(i + ": " + keys[i]);
     }
     
-  }
-  
-  
-  
-  
-  
-  
+  } 
 });
