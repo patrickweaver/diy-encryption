@@ -1,19 +1,22 @@
 {% extends "layout.html" %}
 {% block body %} 
+
   <h2>
-    Offset: Encrypt
+    Shared Key
   </h2>
 
   <main>
     <div id="encryption">
       <div id="encrypt-form">
-        <form action="/offset/encrypt" method="post">
+        <form action="/shared-key/encrypt" method="post">
           <label>Message to Encrypt:</label>
           <br>
           <textarea id="encrypt-message" name="message"></textarea>
           <br>
-          <label>Offset Number between 1 and 95:</label>
-          <input type="number" id="encrypt-offset" name="offset">
+          <label>Key:</label>
+          <input type="text" class="shared-key" name="key1" maxlength="1" pattern="[a-z]{1}">
+          <input type="text" class="shared-key" name="key2" maxlength="1" pattern="[a-z]{1}">
+          <input type="text" class="shared-key" name="key3" maxlength="1" pattern="[a-z]{1}">
           <br>
           <button value="submit">Encrypt</button>
         </form>
@@ -22,6 +25,7 @@
     <div id="explanation">
       {{ explanation }}
     </div>
-    
+
   </main>
+
 {% endblock %}

@@ -1,21 +1,19 @@
 {% extends "layout.html" %}
 {% block body %} 
+
   <h2>
-    Offset: Decrypt
+    Shared Key
   </h2>
 
   <main>
     <div id="encryption">
-      <div id="decrypt-form">
-        <form action="/offset/decrypt" method="post">
+      <div id="brute-force-form">
+        <form action="/shared-key/brute-force" method="post">
           <label>Message to Decrypt:</label>
           <br>
           <textarea id="decrypt-message" name="message"></textarea>
           <br>
-          <label>Offset Number between 1 and 95:</label>
-          <input type="number" id="decrypt-offset" name="offset">
-          <br>
-          <button value="submit">Decrypt</button>
+          <button value="submit">Brute Force Decrypt</button>
 
         </form>
       </div>
@@ -23,6 +21,7 @@
     <div id="explanation">
       {{ explanation }}
     </div>
-    
+
   </main>
+
 {% endblock %}
