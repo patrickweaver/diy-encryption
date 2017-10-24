@@ -1,24 +1,21 @@
-{% extends "layout.html" %}
+{% extends "public-key.html" %}
 {% block body %} 
 
-  <h2>
-    Public Key
+  <h2 class="active-header">
+    📇🔑 Public Key Decrypt 🔑📇
   </h2>
 
-  <main>
-    <h3>
-      Decrypted Message with private key {{ private_keys }}:
-    </h3>
-    <p id="decrypted-message">
-      {{ decrypted_message }}
-    </p>
-    <h3>
-      Encrypted Message:
-    </h3>
-    <p id="message">
-      {{ encrypted_message }}
-    </p>
-    <br>
-    <a href="/public-key">Encrypt another message!</a>
-  </main>
+  <h3>
+    Decrypted Message with private key {{ private_keys }}:
+  </h3>
+  <p id="decrypted-message">
+    {{ decrypted_message }}
+  </p>
+  <h3>
+    Encrypted Message:
+  </h3>
+  <p id="message">
+    {{ encrypted_message }}
+  </p>
+
 {% endblock %}

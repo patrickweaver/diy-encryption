@@ -1,27 +1,25 @@
-{% extends "layout.html" %}
+{% extends "offset.html" %}
 {% block body %} 
-  <h2>
-    Offset: Brute Force
+  <h2 class="active-header">
+    🛠 Offset Brute Force Decrypt 🛠
   </h2>
 
-  <main>
-    <div id="encryption">
-      <div id="brute-force-form">
-        <form action="/offset/brute-force" method="post">
-          <label>Message to Brute Force Decrypt:</label>
-          <br>
-          <textarea id="brute-force-decrypt-message" name="message"></textarea>
-          <br>
-          <button value="submit">
-            Brute Force Decrypt
-          </button>
-        </form>
-      </div>
+  <div id="encryption">
+    <div id="brute-force-form">
+      <form action="/offset/brute-force" method="post">
+        <label>Message to Brute Force Decrypt:</label>
+        <br>
+        <textarea id="brute-force-decrypt-message" name="message"></textarea>
+        <br>
+        <button value="submit">
+          Brute Force Decrypt
+        </button>
+      </form>
+    </div>
 
-    </div>
-    <div id="explanation">
-      {{ explanation }}
-    </div>
+  </div>
+  <div id="explanation">
+    {{ explanation }}
+  </div>
     
-  </main>
 {% endblock %}

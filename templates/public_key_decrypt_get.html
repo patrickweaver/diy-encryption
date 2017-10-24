@@ -1,31 +1,29 @@
-{% extends "layout.html" %}
+{% extends "public-key.html" %}
 {% block body %}   
 
-  <h2>
-    Public Key: Decrypt
+  <h2 class="active-header">
+    📇🔑 Public Key Offset Decrypt 🔑📇
   </h2>
 
-  <main>
-    <div id="encryption">
-      <div id="decrypt-form">
-        <form action="/public-key/decrypt" method="post">
-          <label>Message to Decrypt:</label>
-          <br>
-          <textarea id="decrypt-message" name="message"></textarea>
-          <br>
-          <label>Key 1:</label>
-          <input type="text" id="decrypt-private-key-1" name="private-key-1">
-          <label>Key 2:</label>
-          <input type="text" id="decrypt-private-key-2" name="private-key-2">
-          <br>
-          <button value="submit">Decrypt</button>
+  <div id="encryption">
+    <div id="decrypt-form">
+      <form action="/public-key/decrypt" method="post">
+        <label>Message to Decrypt:</label>
+        <br>
+        <textarea id="decrypt-message" name="message"></textarea>
+        <br>
+        <label>Private Key 1:</label>
+        <input type="text" id="decrypt-private-key-1" name="private-key-1">
+        <label>Private Key 2:</label>
+        <input type="text" id="decrypt-private-key-2" name="private-key-2">
+        <br>
+        <button value="submit">Decrypt</button>
 
-        </form>
-      </div>
+      </form>
     </div>
-    <div id="explanation">
-      {{ explanation }}
-    </div>
+  </div>
+  <div id="explanation">
+    {{ explanation }}
+  </div>
     
-  </main>
 {% endblock %}
