@@ -1,24 +1,23 @@
-{% extends "layout.html" %}
+{% extends "shared-key.html" %}
 {% block body %} 
 
-  <h2>
-    Shared Key
+  <h2 class="active-header">
+    🤝🔑 Shared Key Decrypt 🔑🤝
   </h2>
 
-  <main>
-    <h3>
-      Decrypted Message with key {{ key }}:
-    </h3>
-    <p id="decrypted-message">
-      {{ decrypted_message }}
-    </p>
-    <h3>
-      Encrypted Message:
-    </h3>
-    <p id="message">
-      {{ message }}
-    </p>
-    <br>
-    <a href="/shared-key">Encrypt another message!</a>
-  </main>
+  <h3>
+    Decrypted Message with key {{ key }}:
+  </h3>
+  <p id="decrypted-message">
+    {{ decrypted_message }}
+  </p>
+  <h3>
+    Encrypted Message:
+  </h3>
+  <p id="message">
+    {{ message }}
+  </p>
+  <br>
+  <a href="/shared-key">Encrypt another message!</a>
+
 {% endblock %}

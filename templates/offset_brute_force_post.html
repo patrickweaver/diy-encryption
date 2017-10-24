@@ -1,49 +1,45 @@
-{% extends "layout.html" %}
+{% extends "offset.html" %}
 {% block body %} 
-  <h2>
-    Offset
+  <h2 class="active-header">
+    🛠 Offset Brute Force Decrypt 🛠
   </h2>
 
-  <main>
-    <h3>
-      Original Encrypted Message:
-    </h3>
-    <p id="encrypted-message">
-      {{ message }}
-    </p>
-    <h3>
-      Possible Decrypted Messages:
-    </h3>
+  <h3>
+    Original Encrypted Message:
+  </h3>
+  <p id="encrypted-message">
+    {{ message }}
+  </p>
+  <h3>
+    Possible Decrypted Messages:
+  </h3>
+  <h4>
+    95 possible messages took {{ decrypt_time }} seconds to decrypt.
+  </h4>
+  <div class="best-guess">
     <h4>
-      95 possible messages took {{ decrypt_time }} seconds to decrypt.
+      Original message is probably one of these:
     </h4>
-    <div class="best-guess">
-      <h4>
-        Original message is probably one of these:
-      </h4>
-      <p>   
-        {% for i in range(0, 3)  %}
-          {{ most_likely_offsets[i] + 1 }}: {{ most_likely_messages[i] }}<br>
-        {% endfor %}
-      </p>
-    </div>
-    <div class="best-guess-button">
-      <button>
-        Best Guesses 🎰
-      </button>
-    </div>
+    <p>   
+      {% for i in range(0, 3)  %}
+        {{ most_likely_offsets[i] + 1 }}: {{ most_likely_messages[i] }}<br>
+      {% endfor %}
+    </p>
+  </div>
+  <div class="best-guess-button">
+    <button>
+      Best Guesses 🎰
+    </button>
+  </div>
 
-    
-    <hr/>
-    <ol>
-    {% for possible_message in possible_decrypted_messages %}
-      <li>
-        {{ possible_message }}
-      </li>
-    {% endfor %}
-    </ol>
-    <br>
-    <a href="/offset">Back to Decrypt!</a>
-  </main>
+
+  <hr/>
+  <ol>
+  {% for possible_message in possible_decrypted_messages %}
+    <li>
+      {{ possible_message }}
+    </li>
+  {% endfor %}
+  </ol>
 {% endblock %}
 

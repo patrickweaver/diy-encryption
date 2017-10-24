@@ -1,31 +1,29 @@
-{% extends "layout.html" %}
+{% extends "shared-key.html" %}
 {% block body %} 
 
-  <h2>
-    Shared Key
+  <h2 class="active-header">
+    🤝🔑 Shared Key Decrypt 🔑🤝
   </h2>
 
-  <main>
-    <div id="encryption">
-      <div id="decrypt-form">
-        <form action="/shared-key/decrypt" method="post">
-          <label>Message to Decrypt:</label>
-          <br>
-          <textarea id="decrypt-message" name="message"></textarea>
-          <br>
-          <label>Key:</label>
-          <input type="text" class="shared-key" name="key1" maxlength="1" pattern="[a-z]{1}">
-          <input type="text" class="shared-key" name="key2" maxlength="1" pattern="[a-z]{1}">
-          <input type="text" class="shared-key" name="key3" maxlength="1" pattern="[a-z]{1}">
-          <br>
-          <button value="submit">Decrypt</button>
-        </form>             
-      </div>
+  <div id="encryption">
+    <div id="decrypt-form">
+      <form action="/shared-key/decrypt" method="post">
+        <label>Message to Decrypt:</label>
+        <br>
+        <textarea id="decrypt-message" name="message"></textarea>
+        <br>
+        <label>Key (lowercase a - z only):</label><br>
+        <input type="text" class="shared-key" name="key1" maxlength="1" pattern="[a-z]{1}">
+        <input type="text" class="shared-key" name="key2" maxlength="1" pattern="[a-z]{1}">
+        <input type="text" class="shared-key" name="key3" maxlength="1" pattern="[a-z]{1}">
+        <br>
+        <button value="submit">Decrypt</button>
+      </form>             
     </div>
-    <div id="explanation">
-      {{ explanation }}
-    </div>
+  </div>
+  <div id="explanation">
+    {{ explanation }}
+  </div>
 
-  </main>
 
 {% endblock %}

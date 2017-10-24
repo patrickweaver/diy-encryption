@@ -296,7 +296,8 @@ def offset_encrypt_get():
   explanation = "Offset encryption converts each character in your message to it's corresponding ASCII code. " 
   return render_template(
     "offset_encrypt_get.html",
-    explanation = explanation
+    explanation = explanation,
+    encrypt = "active"
   )
 
 @app.route("/offset/encrypt", methods=["POST"], strict_slashes=False)
@@ -310,7 +311,8 @@ def offset_encrypt_post():
       "offset_encrypt_post.html",
       offset = offset,
       message = message,
-      encrypted_message = encrypted_message
+      encrypted_message = encrypted_message,
+      encrypt = "active"
     )
   else:
     return render_template(
@@ -327,7 +329,8 @@ def offset_decrypt_get():
   explanation = "Offset encryption converts each character in your message to it's corresponding ASCII code. " 
   return render_template(
     "offset_decrypt_get.html",
-    explanation = explanation
+    explanation = explanation,
+    decrypt = "active"
   )
 
 @app.route("/offset/decrypt", methods=["POST"], strict_slashes=False)
@@ -340,7 +343,8 @@ def offset_decrypt_post():
       "offset_decrypt_post.html",
       offset = offset,
       message = message,
-      decrypted_message = decrypted_message
+      decrypted_message = decrypted_message,
+      decrypt = "active"
     )
   else: 
     return render_template(
@@ -358,7 +362,8 @@ def offset_brute_force_get():
   explanation = "Offset encryption converts each character in your message to it's corresponding ASCII code. " 
   return render_template(
     "offset_brute_force_get.html",
-    explanation=explanation
+    explanation=explanation,
+    brute_force = "active"
   )  
   
 @app.route("/offset/brute-force", methods=["POST"], strict_slashes=False)
@@ -380,7 +385,8 @@ def offset_brute_force_decrypt_post():
       decrypt_time = round(decrypt_time, 5),
       most_likely_offsets = most_likely_indexes,
       most_likely_messages = most_likely_messages,
-      possible_decrypted_messages = possible_decrypted_messages
+      possible_decrypted_messages = possible_decrypted_messages,
+      brute_force = "active"
     )
   else:
     return render_template(
@@ -417,23 +423,28 @@ def shared_key_encrypt_get():
   explanation = ""
   return render_template(
     "shared_key_encrypt_get.html",
-    explanation = explanation
+    explanation = explanation,
+    encrypt = "active"
   )
 
 @app.route("/shared-key/encrypt", methods=["POST"], strict_slashes=False)
 def shared_key_encrypt_post():
   message = request.form.get("message")
-  key1 = request.form.get("key1")
-  key2 = request.form.get("key2")
-  key3 = request.form.get("key3")
-  key = key1 + key2 + key3
+  print("KEY!!")
+  print(request.form.get("key1"))
+  key_1 = request.form.get("key1").lower()
+  print(key_1)
+  key_2 = request.form.get("key2").lower()
+  key_3 = request.form.get("key3").lower()
+  key = key_1 + key_2 + key_3
   if message and key:
     encrypted_message = key_encrypt(message, key)
     return render_template(
     "shared_key_encrypt_post.html",
     key = key,
     message = message,
-    encrypted_message = encrypted_message
+    encrypted_message = encrypted_message,
+    encrypt = "active"
     )
   else:
     return render_template("error.html")
@@ -449,23 +460,25 @@ def shared_key_decrypt_get():
   explanation = ""
   return render_template(
     "shared_key_decrypt_get.html",
-    explanation = explanation
+    explanation = explanation,
+    decrypt = "active"
   )  
   
 @app.route("/shared-key/decrypt", methods=["POST"], strict_slashes=False)
 def shared_key_decrypt_post():
   message = request.form.get("message")
-  key1 = request.form.get("key1")
-  key2 = request.form.get("key2")
-  key3 = request.form.get("key3")
-  key = key1 + key2 + key3
+  key_1 = request.form.get("key1").lower()
+  key_2 = request.form.get("key2").lower()
+  key_3 = request.form.get("key3").lower()
+  key = key_1 + key_2 + key_3
   if message and key:
     decrypted_message = key_decrypt(message, key)
     return render_template(
     "shared_key_decrypt_post.html",
     key = key,
     message = message,
-    decrypted_message = decrypted_message
+    decrypted_message = decrypted_message,
+    decrypt = "active"
     )
   else:
     return render_template("error.html")
@@ -481,7 +494,8 @@ def shared_key_brute_force_get():
   explanation = ""
   return render_template(
     "shared_key_brute_force_get.html",
-    explanation = explanation
+    explanation = explanation,
+    brute_force = "active"
   )  
   
 @app.route("/shared-key/brute-force", methods=["POST"], strict_slashes=False)
@@ -496,7 +510,8 @@ def shared_key_brute_force_post():
       "shared_key_brute_force_post.html",
       possible_decrypted_messages = possible_decrypted_messages,
       possible_decrypted_messages_length = len(possible_decrypted_messages),
-      decrypt_time = round(decrypt_time, 5)
+      decrypt_time = round(decrypt_time, 5),
+      brute_force = "active"
     )
   else:
     return render_template(
@@ -534,7 +549,8 @@ def public_key_generate_keys_get():
   explanation = ""
   return render_template(
     "public_key_generate_keys_get.html",
-    explanation = explanation
+    explanation = explanation,
+    generate_keys = "active"
   )
 
 
@@ -578,7 +594,8 @@ def public_key_encrypt_get():
   explanation = ""
   return render_template(
     "public_key_encrypt_get.html",
-    explanation = explanation
+    explanation = explanation,
+    encrypt = "active"
   )
 
 @app.route("/public-key/encrypt", methods=["POST"], strict_slashes=False)
@@ -592,7 +609,8 @@ def public_key_encrypt_post():
       "public_key_encrypt_post.html",
       public_keys = public_key,
       message = message,
-      encrypted_message = public_key_encrypt(message, public_key)
+      encrypted_message = public_key_encrypt(message, public_key),
+      encrypt = "active"
     )
   else:
     return render_template("error.html")
@@ -607,7 +625,8 @@ def public_key_decrypt_get():
   explanation = ""
   return render_template(
     "public_key_decrypt_get.html",
-    explanation = explanation
+    explanation = explanation,
+    decrypt = "active"
   )
 
 @app.route("/public-key/decrypt", methods=["POST"], strict_slashes=False)
@@ -621,7 +640,8 @@ def public_key_decrypt_post():
       "public_key_decrypt_post.html",
       private_keys = private_keys,
       encrypted_message = message,
-      decrypted_message = public_key_decrypt(message, private_keys)
+      decrypted_message = public_key_decrypt(message, private_keys),
+      decrypt = "active"
     )
   else:
     return render_template(

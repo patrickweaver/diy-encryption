@@ -1,14 +1,35 @@
 {% extends "layout.html" %}
-{% block body %}   
+{% block menu %}   
+  <a href="/public-key">
+    <h2 class="type-header">
+      📇 Public Key Encryption 📇
+    </h2>
+  </a>
 
-  <h2>
-    Public Key
-  </h2>
+    <ul id="function-list">
+      <a href="/public-key/generate-keys" >
+        <li class="{{ generate_keys }}">
+          <h2>
+            🎲 Generate Keys 🎲
+          </h2>   
+        </li> 
+      </a>
+      <a href="/public-key/encrypt">
+        <li  class="{{ encrypt }}">
+          <h2>
+            🔒 Encrypt 🔒
+          </h2>      
+        </li>
+      </a>
+      <a href="/public-key/decrypt">
+        <li class="{{ decrypt }}">
+          <h2>
+            🔑 Decrypt 🔑
+          </h2>
+        </li> 
+      </a>
+    </ul>
 
-   <main>
-    <a href="/public-key/generate-keys">Generate Keys</a>
-    <a href="/public-key/encrypt">Encrypt</a>
-    <a href="/public-key/decrypt">Decrypt</a>
-    <a href="/public-key/brute-force">Brute Force Decrypt</a>
-  </main>
+{% endblock %}
+{% block body %}
 {% endblock %}

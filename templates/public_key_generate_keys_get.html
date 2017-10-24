@@ -1,76 +1,74 @@
-{% extends "layout.html" %}
+{% extends "public-key.html" %}
 {% block body %}   
 
-  <h2>
-    Public Key: Generate Keys
+  <h2 class="active-header">
+    📇🎲 Public Key Generate Keys 🎲📇
   </h2>
 
-  <main>
-    <div id="encryption">
-      <div id="generate-keys">
-        <div id="choose-primes" class="generate-section">
-          <h3>
-            Choose two small prime numbers:
-          </h3>
+  <div id="encryption">
+    <div id="generate-keys">
+      <div id="choose-primes" class="generate-section">
+        <h3>
+          Choose two small prime numbers:
+        </h3>
 
-          <button id="submit-primes">
-            Submit Primes!
-          </button>
+        <button id="submit-primes">
+          Submit Primes!
+        </button>
 
-          <ul id="primes-under-30-list" class="number-list">
-            <li>7</li>
-            <li>11</li>
-            <li>13</li>
-            <li>17</li>
-            <li>19</li>
-            <li>23</li>
-            <li>29</li>
-          </ul>
+        <ul id="primes-under-30-list" class="number-list">
+          <li>7</li>
+          <li>11</li>
+          <li>13</li>
+          <li>17</li>
+          <li>19</li>
+          <li>23</li>
+          <li>29</li>
+        </ul>
 
-        </div>
-        <div id="choose-coprime" class="generate-section">
-          <h3>
-            Choose one of the coprimes of <span class="prime1-span"></span> and <span class="prime2-span"></span>:
-          </h3>
+      </div>
+      <div id="choose-coprime" class="generate-section">
+        <h3>
+          Choose one of the coprimes of <span class="prime1-span"></span> and <span class="prime2-span"></span>:
+        </h3>
 
-          <button id="submit-coprime">
-            Submit Coprime!
-          </button>
+        <button id="submit-coprime">
+          Submit Coprime!
+        </button>
 
-          <ul id="coprime-list" class="number-list">
+        <ul id="coprime-list" class="number-list">
 
-          </ul>
+        </ul>
 
-        </div>
-        <div id="keys" class="generate-section">
-          <h3>
-            Keys:
-          </h3>
-          <p>
-            <strong>Prime 1:</strong> <span class="prime1-span"></span>
-          </p>
-          <p>
-            <strong>Prime 2:</strong> <span class="prime2-span"></span>
-          </p>
-          <p>
-            <strong>Coprime:</strong> <span class="coprime-span"></span>
-          </p>
-          <h3>
-            <strong>Public Keys:</strong> <span class="public-keys-span"></span>
-          </h3>
-          <h3>
-            <strong>Private Keys:</strong> <span class="private-keys-span"></span>
-          </h3>
+      </div>
+      <div id="keys" class="generate-section">
+        <h3>
+          Keys:
+        </h3>
+        <p>
+          <strong>Prime 1:</strong> <span class="prime1-span"></span>
+        </p>
+        <p>
+          <strong>Prime 2:</strong> <span class="prime2-span"></span>
+        </p>
+        <p>
+          <strong>Coprime:</strong> <span class="coprime-span"></span>
+        </p>
+        <h3>
+          <strong>Public Keys:</strong> <span class="public-keys-span"></span>
+        </h3>
+        <h3>
+          <strong>Private Keys:</strong> <span class="private-keys-span"></span>
+        </h3>
 
-        </div>
-        <div id="error" class="generate-section">
+      </div>
+      <div id="error" class="generate-section">
 
-        </div>
       </div>
     </div>
-    <div id="explanation">
-      {{ explanation }}
-    </div>
+  </div>
+  <div id="explanation">
+    {{ explanation }}
+  </div>
     
-  </main>
 {% endblock %}

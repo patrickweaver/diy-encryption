@@ -1,28 +1,26 @@
-{% extends "layout.html" %}
+{% extends "offset.html" %}
 {% block body %} 
-  <h2>
-    Offset: Decrypt
+  <h2 class="active-header">
+    ➡️🔑 Offset Decrypt 🔑➡️
   </h2>
 
-  <main>
-    <div id="encryption">
-      <div id="decrypt-form">
-        <form action="/offset/decrypt" method="post">
-          <label>Message to Decrypt:</label>
-          <br>
-          <textarea id="decrypt-message" name="message"></textarea>
-          <br>
-          <label>Offset Number between 1 and 95:</label>
-          <input type="number" id="decrypt-offset" name="offset">
-          <br>
-          <button value="submit">Decrypt</button>
+  <div id="encryption">
+    <div id="decrypt-form">
+      <form action="/offset/decrypt" method="post">
+        <label>Message to Decrypt:</label>
+        <br>
+        <textarea id="decrypt-message" name="message"></textarea>
+        <br>
+        <label>Offset Number between 1 and 95:</label>
+        <input type="number" id="decrypt-offset" name="offset">
+        <br>
+        <button value="submit">Decrypt</button>
 
-        </form>
-      </div>
+      </form>
     </div>
-    <div id="explanation">
-      {{ explanation }}
-    </div>
+  </div>
+  <div id="explanation">
+    {{ explanation }}
+  </div>
     
-  </main>
 {% endblock %}

@@ -1,24 +1,21 @@
-{% extends "layout.html" %}
+{% extends "offset.html" %}
 {% block body %} 
-  <h2>
-    Offset
+  <h2 class="active-header">
+    ➡️🔒 Offset Encrypt 🔒➡️
   </h2>
 
-  <main>
-    <h3>
-      Encrypted Message with offset {{ offset }}:
-    </h3>
-    <p id="encrypted-message">
-      {{ encrypted_message }}
-    </p>
-    <h3>
-      Original Message:
-    </h3>
-    <p id="message">
-      {{ message }}
-    </p>
-    <br>
-    <a href="/offset">Back to Decrypt!</a>
-  </main>
+  <h3>
+    Encrypted Message with offset {{ offset }}:
+  </h3>
+  <p id="encrypted-message">
+    {{ encrypted_message }}
+  </p>
+  <h3>
+    Original Message:
+  </h3>
+  <p id="message">
+    {{ message }}
+  </p>
+
 {% endblock %}
 
