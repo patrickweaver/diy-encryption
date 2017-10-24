@@ -98,7 +98,7 @@ def offset_brute_force(my_encoded_string):
 # This algorithm encrypts a message by getting a character's ASCII code, offsetting it by the ASCII code of a character in the key. Each character in the message is offset by the ASCII code of the next character in they key. If the message is longer than the key the ASCII codes from the key are repeated. 
 # - - - - - - - - - - - - - - - - 
 
-def key_encrypt(my_string, my_key):
+def shared_key_encrypt(my_string, my_key):
   clean_string = line_break_to_space(my_string)
   new_string = ""
   for c in my_key:
@@ -135,7 +135,7 @@ def key_encrypt(my_string, my_key):
       count = 0
   return new_string
 
-def key_decrypt(my_encoded_string, my_key):
+def shared_key_decrypt(my_encoded_string, my_key):
   new_string = ""
   for c in my_key:
     if ord(c) > 126:
@@ -171,7 +171,7 @@ def key_decrypt(my_encoded_string, my_key):
       count = 0
   return new_string
 
-def key_brute_force(my_encoded_string):
+def shared_key_brute_force(my_encoded_string):
   new_strings = []
   keys_array = []
   keys = []
@@ -185,7 +185,7 @@ def key_brute_force(my_encoded_string):
       keys = for_each_place(keys)
     
   for key in keys:
-    possible_message = {"key": key, "message": key_decrypt(my_encoded_string, key)}
+    possible_message = {"key": key, "message": shared_key_decrypt(my_encoded_string, key)}
     new_strings.append(possible_message)
   return new_strings
 
@@ -438,7 +438,7 @@ def shared_key_encrypt_post():
   key_3 = request.form.get("key3").lower()
   key = key_1 + key_2 + key_3
   if message and key:
-    encrypted_message = key_encrypt(message, key)
+    encrypted_message = shared_key_encrypt(message, key)
     return render_template(
     "shared_key_encrypt_post.html",
     key = key,
@@ -472,7 +472,7 @@ def shared_key_decrypt_post():
   key_3 = request.form.get("key3").lower()
   key = key_1 + key_2 + key_3
   if message and key:
-    decrypted_message = key_decrypt(message, key)
+    decrypted_message = shared_key_decrypt(message, key)
     return render_template(
     "shared_key_decrypt_post.html",
     key = key,
@@ -503,7 +503,7 @@ def shared_key_brute_force_post():
   message = request.form.get("message")
   if message:
     start_time = time.time()
-    possible_decrypted_messages = key_brute_force(message);
+    possible_decrypted_messages = shared_key_brute_force(message);
     end_time = time.time()
     decrypt_time = end_time - start_time
     return render_template(
@@ -648,6 +648,41 @@ def public_key_decrypt_post():
       "error.html"
     )
 
+  # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Public Key
+# Brute Force:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+@app.route("/public-key/brute-force", methods=["GET"], strict_slashes=False)
+def public_key_brute_force_get():
+  explanation = ""
+  return render_template(
+    "public_key_brute_force_get.html",
+    explanation = explanation,
+    brute_force = "active"
+  )  
+  
+@app.route("/public-key/brute-force", methods=["POST"], strict_slashes=False)
+def public_key_brute_force_post(): 
+  message = request.form.get("message")
+  if message:
+    start_time = time.time()
+    possible_decrypted_messages = public_key_brute_force(message);
+    end_time = time.time()
+    decrypt_time = end_time - start_time
+    return render_template(
+      "public_key_brute_force_post.html",
+      possible_decrypted_messages = possible_decrypted_messages,
+      possible_decrypted_messages_length = len(possible_decrypted_messages),
+      decrypt_time = round(decrypt_time, 5),
+      brute_force = "active"
+    )
+  else:
+    return render_template(
+      "error.html"
+    )
+  
+  
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 # Public Key
 # Index:
