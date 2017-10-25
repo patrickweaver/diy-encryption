@@ -17,13 +17,9 @@
         </button>
 
         <ul id="primes-under-30-list" class="number-list">
-          <li>7</li>
-          <li>11</li>
-          <li>13</li>
-          <li>17</li>
-          <li>19</li>
-          <li>23</li>
-          <li>29</li>
+          {% for prime in primes %}
+            <li>{{ prime }}</li>
+          {% endfor %}
         </ul>
 
       </div>
