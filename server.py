@@ -175,8 +175,8 @@ def shared_key_brute_force(my_encoded_string):
   new_strings = []
   keys_array = []
   keys = []
-  # Length of key
   key = ""
+  # Currently this only looks at 3 letter keys but this range could be expanded
   for key_length in range(3, 4):
     # An array for each of the possible lengths of keys
     keys_array.append([])
@@ -203,6 +203,9 @@ def for_each_place(beginnings_of_keys):
 # **  Public Key **
 # This algorithm encrypts a message by using public keys generated on the front end. The ASCII code of each character in the message is converted into a number using the public key. To decrypt the message, the number is converted back into an ASCII code using the private key.
 # - - - - - - - - - - - - - - - - 
+#primes = [11, 13, 17, 19, 23, 29]
+primes = [11, 13, 17, 19, 23]
+
 def gcd(a, b):
     while b != 0:
         a, b = b, a % b
@@ -210,6 +213,19 @@ def gcd(a, b):
 
 def coprime(a, b):
     return gcd(a, b) == 1
+  
+def get_coprimes(prime_1, prime_2):
+  larger_prime = prime_1
+  if (prime_1 - prime_2) < 0:
+    larger_prime = prime_2
+  modulus = prime_1 * prime_2
+  coprimes_of = (prime_1 - 1) * (prime_2 - 1)
+  coprimes = []
+  for n in range(larger_prime + 2, coprimes_of):
+    if coprime(n, coprimes_of):
+      if generate_keys(prime_1, prime_2, n):
+        coprimes.append(n)
+  return coprimes
   
 def generate_keys(prime_1, prime_2, coprime):
   modulus = prime_1 * prime_2
@@ -265,9 +281,33 @@ def public_key_decrypt(encrypted_message, private_keys):
   encrypted_array.append(int(placeholder_string))
   
   for i in encrypted_array:
-    decrypted_int = (i**private_keys[0] % private_keys[1])
+    print("KEYS: " + str(private_keys[0]) + " " + str(private_keys[1]))
+    decrypted_int = (i ** private_keys[0] % private_keys[1])
+    if decrypted_int > 126:
+      decrypted_string = "Error: Invalid message"
+      break;
     decrypted_string += chr(decrypted_int)
   return decrypted_string
+
+def public_key_brute_force(my_encoded_string):
+  new_strings = []
+  keys = []
+  largest_prime = primes[len(primes) - 1]
+  # Prime 1
+  for i in range(primes[0], largest_prime):
+    prime_1 = i
+    for j in range(primes[0], largest_prime):
+      prime_2 = j
+      if prime_1 != prime_2:
+        coprimes = get_coprimes(prime_1, prime_2)
+        for coprime in coprimes:
+          keys.append(generate_keys(prime_1, prime_2, coprime))
+          
+  for key in keys:
+    possible_message = {"key": key, "message": public_key_decrypt(my_encoded_string, key["private_keys"])}
+    new_strings.append(possible_message)
+  return new_strings
+
 
 
 # - - - - - - - - - - - - - - - -
@@ -550,9 +590,9 @@ def public_key_generate_keys_get():
   return render_template(
     "public_key_generate_keys_get.html",
     explanation = explanation,
+    primes = primes,
     generate_keys = "active"
   )
-
 
 @app.route("/public-key/primes", methods=["POST"], strict_slashes=False)
 def available_coprimes():
@@ -579,9 +619,7 @@ def keys():
   if keys:
     return jsonify({"publicKeys": keys["public_keys"], "privateKeys": keys["private_keys"]})
   else:
-    return jsonify({"error": "No keys found, select different numbers (probably higher numbers)."})
-  
-  
+    return jsonify({"error": "No keys found, select different numbers (probably higher numbers)."})  
   
   
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
@@ -668,6 +706,7 @@ def public_key_brute_force_post():
   if message:
     start_time = time.time()
     possible_decrypted_messages = public_key_brute_force(message);
+    print(possible_decrypted_messages)
     end_time = time.time()
     decrypt_time = end_time - start_time
     return render_template(
