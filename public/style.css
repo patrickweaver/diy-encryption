@@ -6,8 +6,8 @@ body {
   font-family: helvetica, arial, sans-serif;
   margin: 25px auto;
   max-width: 900px;
+  min-height: 20em;
   width: 100%;
-  border: 1px dotted purple;
 }
 
 a:link, a:visited, a:hover, a:active  {
@@ -47,18 +47,20 @@ h4 {
 
 #function-list {
   list-style-type: none;
+  margin: 0 auto;
+  display: inline-block;
 }
 
 #function-list li {
   padding: .25em 1em;
   border: 2px solid black;
   border-radius: 10px;
-  margin: .25em 1em;
+  margin: .25em .25em;
   display: inline-block;
   background-color: #BAC6DD;
 }
 
-#function-list h2 {
+#function-list h3 {
   margin: 0;
 }
 

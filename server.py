@@ -203,7 +203,6 @@ def for_each_place(beginnings_of_keys):
 # **  Public Key **
 # This algorithm encrypts a message by using public keys generated on the front end. The ASCII code of each character in the message is converted into a number using the public key. To decrypt the message, the number is converted back into an ASCII code using the private key.
 # - - - - - - - - - - - - - - - - 
-#primes = [11, 13, 17, 19, 23, 29]
 primes = [11, 13, 17, 19, 23]
 
 def gcd(a, b):
