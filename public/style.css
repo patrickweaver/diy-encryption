@@ -49,6 +49,8 @@ h4 {
   list-style-type: none;
   margin: 0 auto;
   display: inline-block;
+  text-align: center;
+  width: 100%;
 }
 
 #function-list li {
@@ -76,14 +78,12 @@ h4 {
 
 
 #encryption {
-  border: 1px dashed orange;
   width: 40%;
   margin: 0 5%;
   display: inline-block;
 }
 
 #explanation {
-  border: 1px dashed blue;
   width: 38%;
   margin: 0 5%;
   display: inline-block;
