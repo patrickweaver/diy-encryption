@@ -8,27 +8,31 @@
   </a>
 
     <ul id="function-list">
-      <a href="/shared-key/encrypt">
-        <li  class="{{ encrypt }}">
+      
+      <li  class="{{ encrypt }}">
+        <a href="/shared-key/encrypt">
           <h3>
             🔒 Encrypt 🔒
-          </h3>      
-        </li>
-      </a>
-      <a href="/shared-key/decrypt">
-        <li class="{{ decrypt }}">
+          </h3> 
+        </a> 
+      </li>
+     
+      <li class="{{ decrypt }}">
+        <a href="/shared-key/decrypt">  
           <h3>
             🔑 Decrypt 🔑
           </h3>
-        </li> 
-      </a>
-      <a href="/shared-key/brute-force" >
-        <li class="{{ brute_force }}">
+        </a>
+      </li> 
+      
+      <li class="{{ brute_force }}">
+        <a href="/shared-key/brute-force" >
           <h3>
             🛠 Brute Force Decrypt 🛠
-          </h3>   
-        </li> 
-      </a>
+          </h3> 
+        </a>
+      </li> 
+
     </ul>
 
 {% endblock %}

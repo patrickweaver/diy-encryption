@@ -1,8 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-  <h2>
-    Encrypt a secret message!
-  </h2>
+
   <p>
     Use one of the three encryption techniques below to encrypt a secret message.
   </p>
@@ -15,7 +13,7 @@
     </h2>
     <p>
       Encrypts your message using a simple offset on the <a href="https://en.wikipedia.org/wiki/ASCII">ASCII</a> code of each 
-      character in your message.
+      character in your message. <a href="/offset">Try it out!</a>
     </p>
   </div>
   <div class="encryption-type">
@@ -24,7 +22,7 @@
     </h2>
     <p>
       Encrypts your message using a shared key phrase. The key generates different
-      offsets that are used on the ASCII code of each character in your message.
+      offsets that are used on the ASCII code of each character in your message. <a href="/shared-key">Try it out!</a>
     </p>
   </div>
   <div class="encryption-type">
@@ -33,7 +31,7 @@
     </h2>
     <p>
       Generate public and private keys, other people can use your public
-      key to encrypt messages that you can decrypt with your private key.
+      key to encrypt messages that you can decrypt with your private key. <a href="/public-key">Try it out!</a>
     </p>
   </div>
 

@@ -11,13 +11,19 @@
     <script src="/jquery-3.2.1.min.js"></script>
   </head>
   <body>
-      <a href="/">
-        <h1>
-          Encryption with Mouse
-        </h1>
-      </a>
-    {% block menu %}{% endblock %}
-    {% block body %}{% endblock %}
+    <div id="container">
+      
+    
+        
+        <h2 id="main-header">
+          <a href="/">
+            Encrypt a Secret Message!
+          </a>
+        </h2>
+      {% block menu %}{% endblock %}
+      {% block body %}{% endblock %}
+    
+    </div>
 
     <script src="/public-key.js"></script>
     <script src="/script.js"></script>
