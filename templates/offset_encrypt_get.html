@@ -1,15 +1,16 @@
 {% extends "offset.html" %}
 {% block body %} 
-  <h2 class="active-header">
-    ➡️🔒 Offset Encrypt 🔒➡️
-  </h2>
+
+  <div id="explanation">
+    {{ explanation }}
+  </div>
 
   <div id="encryption">
     <div id="encrypt-form">
       <form action="/offset/encrypt" method="post">
         <label>Message to Encrypt:</label>
         <br>
-        <textarea id="encrypt-message" name="message"></textarea>
+        <textarea class="message" name="message"></textarea>
         <br>
         <label>Offset Number between 1 and 95:</label>
         <input type="number" id="encrypt-offset" name="offset">
@@ -17,9 +18,6 @@
         <button value="submit">Encrypt</button>
       </form>
     </div>
-  </div>
-  <div id="explanation">
-    {{ explanation }}
   </div>
     
 {% endblock %}

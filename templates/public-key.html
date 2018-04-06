@@ -7,34 +7,40 @@
   </a>
 
     <ul id="function-list">
-      <a href="/public-key/generate-keys" >
-        <li class="{{ generate_keys }}">
+      
+      <li class="{{ generate_keys }}">
+        <a href="/public-key/generate-keys" >
+       
           <h3>
             🎲 Generate Keys 🎲
-          </h3>   
-        </li> 
-      </a>
-      <a href="/public-key/encrypt">
-        <li  class="{{ encrypt }}">
+          </h3>  
+        </a>
+      </li> 
+      
+      <li  class="{{ encrypt }}">
+        <a href="/public-key/encrypt">
           <h3>
             🔒 Encrypt 🔒
           </h3>      
-        </li>
-      </a>
-      <a href="/public-key/decrypt">
-        <li class="{{ decrypt }}">
+        </a>
+      </li>
+      
+      <li class="{{ decrypt }}">
+        <a href="/public-key/decrypt">   
           <h3>
             🔑 Decrypt 🔑
           </h3>
-        </li> 
-      </a>
-      <a href="/public-key/brute-force" >
-        <li class="{{ brute_force }}">
+        </a>
+      </li> 
+      
+      <li class="{{ brute_force }}">
+        <a href="/public-key/brute-force" > 
           <h3>
             🛠 Brute Force Decrypt 🛠
-          </h3>   
-        </li> 
-      </a>
+          </h3> 
+        </a>
+      </li> 
+      
     </ul>
 
 {% endblock %}

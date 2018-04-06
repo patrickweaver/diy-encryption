@@ -1,16 +1,10 @@
 {% extends "shared-key.html" %}
 {% block body %} 
 
-  <h2 class="active-header">
-    🤝🔒 Shared Key Encrypt 🔒🤝
-  </h2>
-
   <h3>
     Encrypted Message with key {{ key }}:
   </h3>
-  <p id="encrypted-message">
-    {{ encrypted_message }}
-  </p>
+  <textarea id="encrypted-message">{{ encrypted_message }}</textarea>
   <h3>
     Original Message:
   </h3>

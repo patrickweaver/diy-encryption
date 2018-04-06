@@ -1,8 +1,9 @@
 {% extends "offset.html" %}
 {% block body %} 
-  <h2 class="active-header">
-    ➡️🔑 Offset Decrypt 🔑➡️
-  </h2>
+
+  <div id="explanation">
+    {{ explanation }}
+  </div>
 
   <div id="encryption">
     <div id="decrypt-form">
@@ -18,9 +19,6 @@
 
       </form>
     </div>
-  </div>
-  <div id="explanation">
-    {{ explanation }}
   </div>
     
 {% endblock %}

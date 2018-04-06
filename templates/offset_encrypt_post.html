@@ -1,15 +1,10 @@
 {% extends "offset.html" %}
 {% block body %} 
-  <h2 class="active-header">
-    ➡️🔒 Offset Encrypt 🔒➡️
-  </h2>
 
   <h3>
     Encrypted Message with offset {{ offset }}:
   </h3>
-  <p id="encrypted-message">
-    {{ encrypted_message }}
-  </p>
+  <textarea id="encrypted-message">{{ encrypted_message }}</textarea>
   <h3>
     Original Message:
   </h3>
