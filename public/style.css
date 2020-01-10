@@ -174,8 +174,17 @@ footer > a {
   color: #BBBBBB;
 }
 
+.messages {
+  background-color: white;
+  padding: 10px 15px;
+}
 
-.number-list li {
+ol.messages {
+  list-style-position: inside;
+}
+
+
+.number-list > li {
   width: 40px;
   height: 40px;
   display: inline-block;
@@ -188,7 +197,11 @@ footer > a {
   margin: 5px;
 }
 
-.number-list li.selected {
+.number-list > li:first-child {
+  margin: 5px 5px 5px 0px;
+}
+
+.number-list > li.selected {
   background-color: #EC608D;
 }
 
@@ -198,9 +211,15 @@ footer > a {
 /* Public Key */
 
 
-div#generate-keys button {
+#generate-keys button {
   display: none;
-  margin: 1em;
+  margin: 1em 0;
+  background-color: #fBf8ff;
+}
+
+#generate-keys button:hover {
+  background-color: #fbe8ff;
+
 }
 
 div#choose-coprime, div#keys, div#error {
@@ -214,9 +233,13 @@ div#error {
   font-size: 150%;
 }
 
-.best-guess {
+#best-guess {
   display: none;
   border: 2px solid #028E6D;
   background-color: #E6F6F2;
   padding: .5em;
+}
+
+#best-guess > p {
+  margin-bottom: 0px;
 }
