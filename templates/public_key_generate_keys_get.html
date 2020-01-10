@@ -8,15 +8,15 @@
           Choose two small prime numbers:
         </h3>
 
+        <ul id="primes-under-30-list" class="number-list">
+          {% for prime in primes %}
+            <li class="prime-under-30">{{ prime }}</li>
+          {% endfor %}
+        </ul>
+
         <button id="submit-primes">
           Submit Primes!
         </button>
-
-        <ul id="primes-under-30-list" class="number-list">
-          {% for prime in primes %}
-            <li>{{ prime }}</li>
-          {% endfor %}
-        </ul>
 
       </div>
       <div id="choose-coprime" class="generate-section">
@@ -24,13 +24,12 @@
           Choose one of the coprimes of <span class="prime1-span"></span> and <span class="prime2-span"></span>:
         </h3>
 
+        <ul id="coprime-list" class="number-list">
+        </ul>
+
         <button id="submit-coprime">
           Submit Coprime!
         </button>
-
-        <ul id="coprime-list" class="number-list">
-
-        </ul>
 
       </div>
       <div id="keys" class="generate-section">

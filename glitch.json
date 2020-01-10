@@ -1,0 +1,23 @@
+{
+  "install": "pip3 install --user -r requirements.txt",
+  "start": "PYTHONUNBUFFERED=true python3 server.py",
+  "watch": {
+    "ignore": [
+      "\\.pyc$"
+    ],
+    "install": {
+      "include": [
+        "^requirements\\.txt$"
+      ]
+    },
+    "restart": {
+      "include": [
+        "\\.py$",
+        "\\.html",
+        "\\.css",
+        "\\.js"
+      ]
+    },
+    "throttle": 1000
+  }
+}

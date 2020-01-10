@@ -4,7 +4,7 @@
   <h3>
     Original Encrypted Message:
   </h3>
-  <p id="encrypted-message">
+  <p id="encrypted-message" class="messages">
     {{ message }}
   </p>
   <h3>
@@ -13,25 +13,26 @@
   <h4>
     95 possible messages took {{ decrypt_time }} seconds to decrypt.
   </h4>
-  <div class="best-guess">
+
+  <div class="best-guess-button-container">
+    <button id="best-guess-button">
+      Best Guesses 🎰
+    </button>
+  </div>
+
+  <div id="best-guess">
     <h4>
       Original message is probably one of these:
     </h4>
-    <p>   
+    <p class="messages">   
       {% for i in range(0, 3)  %}
         {{ most_likely_offsets[i] + 1 }}: {{ most_likely_messages[i] }}<br>
       {% endfor %}
     </p>
   </div>
-  <div class="best-guess-button">
-    <button>
-      Best Guesses 🎰
-    </button>
-  </div>
-
 
   <hr/>
-  <ol>
+  <ol class="messages">
   {% for possible_message in possible_decrypted_messages %}
     <li>
       {{ possible_message }}
