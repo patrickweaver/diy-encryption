@@ -4,7 +4,7 @@
   <h3>
     Original Encrypted Message:
   </h3>
-  <p id="encrypted-message">
+  <p id="encrypted-message" class="messages">
     {{ message }}
   </p>
   <h3>
@@ -16,12 +16,14 @@
   <h4>
     Original message is probably offset {{ most_likely_offset }}:
   </h4>
-  <p>
-    {{  most_likely }}
+  <p class="messages">   
+    {% for i in range(0, 3)  %}
+      {{ most_likely_offsets[i] + 1 }}<br><strong>Key: </strong>{{ most_likely_messages[i]['key'] }}, <strong>Message: </strong>{{ most_likely_messages[i]['message'] }}<br><br>
+    {% endfor %}
   </p>
 
   <hr/>
-  <ol>
+  <ol class="messages">
   {% for possible_message in possible_decrypted_messages %}
     <li>
       <strong>Key: </strong>{{ possible_message["key"] }}

@@ -545,10 +545,24 @@ def shared_key_brute_force_post():
     possible_decrypted_messages = shared_key_brute_force(message);
     end_time = time.time()
     decrypt_time = end_time - start_time
+
+    def isolate_messages(n):
+      #print(n)
+      #print('\n')
+      return n['message']
+
+    messages_only = list(map(isolate_messages, possible_decrypted_messages))
+    most_likely_indexes = find_spaces(messages_only)
+    most_likely_messages = []
+    for index in most_likely_indexes:
+      most_likely_messages.append(possible_decrypted_messages[index])
     return render_template(
       "shared_key_brute_force_post.html",
+      message = message,
       possible_decrypted_messages = possible_decrypted_messages,
       possible_decrypted_messages_length = len(possible_decrypted_messages),
+      most_likely_offsets = most_likely_indexes,
+      most_likely_messages = most_likely_messages,
       decrypt_time = round(decrypt_time, 5),
       brute_force = "active"
     )

@@ -90,7 +90,6 @@ if (generateKeys) {
   }
 
   addClickListener(submitPrimesButton , function(event) {
-    console.log('click');
     var prime1Span = document.getElementsByClassName('prime1-span');
     for (var i = 0; i < prime1Span.length; i++) {
       prime1Span[i].innerHTML = prime1;
