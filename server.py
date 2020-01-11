@@ -14,7 +14,6 @@ app = Flask(__name__, static_folder='views')
 def line_break_to_space(my_string):
   string_list = list(my_string)
   for i in range(0, len(string_list)):
-    #print(str(i) + ": " + string_list[i] + " (" + str(ord(string_list[i])) + ")")
     if ord(string_list[i]) == 13:
       string_list[i] = " "
     if ord(string_list[i]) == 10:
@@ -25,18 +24,24 @@ def line_break_to_space(my_string):
 # To find the decrypted strings with the most spaces
 # - - - - - - - - - - - - - - - -
 
-def find_spaces(my_possible_strings):
+def find_spaces(my_possible_strings, include_e_a, how_many):
   spaces_list = []
   for i in range(0, len(my_possible_strings)):
     spaces = 0
     for c in my_possible_strings[i]:
       if ord(c) == 32:
         spaces += 1
+      if (include_e_a):
+        if ord(c) == 101 or ord(c) == 97:
+          spaces += 1
     spaces_list.append({"spaces": spaces, "index": i})
                  
-  # my_list = sorted(my_list, key=lambda k: k['name'])
   spaces_list = sorted(spaces_list, key=lambda k: k["spaces"], reverse=True)
-  most_likely_indexes = [spaces_list[0]["index"], spaces_list[1]["index"], spaces_list[2]["index"]]
+
+
+  most_likely_indexes = []
+  for i in range(0, how_many):
+    most_likely_indexes.append(spaces_list[i]["index"])
                  
   return most_likely_indexes
 
@@ -280,7 +285,6 @@ def public_key_decrypt(encrypted_message, private_keys):
   encrypted_array.append(int(placeholder_string))
   
   for i in encrypted_array:
-    print("KEYS: " + str(private_keys[0]) + " " + str(private_keys[1]))
     decrypted_int = (i ** private_keys[0] % private_keys[1])
     if decrypted_int > 126:
       decrypted_string = "Error: Invalid message"
@@ -413,7 +417,7 @@ def offset_brute_force_decrypt_post():
     possible_decrypted_messages = offset_brute_force(message)
     end_time = time.time()
     decrypt_time = end_time - start_time
-    most_likely_indexes = find_spaces(possible_decrypted_messages)
+    most_likely_indexes = find_spaces(possible_decrypted_messages, False, 3)
     most_likely_messages = []
     for index in most_likely_indexes:
       most_likely_messages.append(possible_decrypted_messages[index])
@@ -469,10 +473,7 @@ def shared_key_encrypt_get():
 @app.route("/shared-key/encrypt", methods=["POST"], strict_slashes=False)
 def shared_key_encrypt_post():
   message = request.form.get("message")
-  print("KEY!!")
-  print(request.form.get("key1"))
   key_1 = request.form.get("key1").lower()
-  print(key_1)
   key_2 = request.form.get("key2").lower()
   key_3 = request.form.get("key3").lower()
   key = key_1 + key_2 + key_3
@@ -547,12 +548,10 @@ def shared_key_brute_force_post():
     decrypt_time = end_time - start_time
 
     def isolate_messages(n):
-      #print(n)
-      #print('\n')
       return n['message']
 
     messages_only = list(map(isolate_messages, possible_decrypted_messages))
-    most_likely_indexes = find_spaces(messages_only)
+    most_likely_indexes = find_spaces(messages_only, True, 5)
     most_likely_messages = []
     for index in most_likely_indexes:
       most_likely_messages.append(possible_decrypted_messages[index])
@@ -563,6 +562,7 @@ def shared_key_brute_force_post():
       possible_decrypted_messages_length = len(possible_decrypted_messages),
       most_likely_offsets = most_likely_indexes,
       most_likely_messages = most_likely_messages,
+      most_likely_messages_length = len(most_likely_indexes),
       decrypt_time = round(decrypt_time, 5),
       brute_force = "active"
     )

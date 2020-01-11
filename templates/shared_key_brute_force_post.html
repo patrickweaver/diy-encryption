@@ -5,7 +5,7 @@
     Original Encrypted Message:
   </h3>
   <p id="encrypted-message" class="messages">
-    {{ message }}
+    <span class="wrap-message">{{ message }}</span>
   </p>
   <h3>
     Possible Decrypted Messages:
@@ -13,14 +13,23 @@
   <h4>
     {{ possible_decrypted_messages_length }} possible messages took {{ decrypt_time }} seconds to decrypt.
   </h4>
-  <h4>
-    Original message is probably offset {{ most_likely_offset }}:
-  </h4>
-  <p class="messages">   
-    {% for i in range(0, 3)  %}
-      {{ most_likely_offsets[i] + 1 }}<br><strong>Key: </strong>{{ most_likely_messages[i]['key'] }}, <strong>Message: </strong>{{ most_likely_messages[i]['message'] }}<br><br>
-    {% endfor %}
-  </p>
+  
+  <div class="best-guess-button-container">
+    <button id="best-guess-button">
+      Reveal Best Guesses 🎰
+    </button>
+  </div>
+
+  <div id="best-guess">
+    <h4>
+      Original message is probably one of these:
+    </h4>
+    <p class="messages">   
+      {% for i in range(0, most_likely_messages_length)  %}
+        {{ most_likely_offsets[i] + 1 }}.<br><strong>Key: </strong>{{ most_likely_messages[i]['key'] }}, <strong>Message: </strong>{{ most_likely_messages[i]['message'] }}<br><br>
+      {% endfor %}
+    </p>
+  </div>
 
   <hr/>
   <ol class="messages">
