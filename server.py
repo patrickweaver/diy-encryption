@@ -47,6 +47,14 @@ def find_spaces(my_possible_strings, include_e_a, how_many):
 
 
 # - - - - - - - - - - - - - - - - 
+# To use just the messages
+# - - - - - - - - - - - - - - - - 
+
+def isolate_messages(n):
+      return n['message']
+
+
+# - - - - - - - - - - - - - - - - 
 # ** Offset **
 # This algorithm encrypts a message by getting a character's ASCII code, offestting it by a set amount, and returning the ASCII character that corresponds to the new number.
 # - - - - - - - - - - - - - - - - 
@@ -297,17 +305,29 @@ def public_key_brute_force(my_encoded_string):
   keys = []
   largest_prime = primes[len(primes) - 1]
   # Prime 1
-  for i in range(primes[0], largest_prime):
-    prime_1 = i
-    for j in range(primes[0], largest_prime):
-      prime_2 = j
+  for prime_1 in primes:
+    for prime_2 in primes:
       if prime_1 != prime_2:
         coprimes = get_coprimes(prime_1, prime_2)
         for coprime in coprimes:
-          keys.append(generate_keys(prime_1, prime_2, coprime))
+          keys.append(generate_keys(prime_1, prime_2, coprime)["private_keys"])
           
+  unique_keys = [];
+  unique_key_strings = [];
+  
   for key in keys:
-    possible_message = {"key": key, "message": public_key_decrypt(my_encoded_string, key["private_keys"])}
+    key_string = str(key[0]) + '-' + str(key[1])
+    try:
+      key_string_index = unique_key_strings.index(key_string)
+    except ValueError:
+      key_string_index = -1
+    
+    if (key_string_index == -1):
+      unique_keys.append(key)
+      unique_key_strings.append(key_string)
+          
+  for key in unique_keys:
+    possible_message = {"key": key, "message": public_key_decrypt(my_encoded_string, key)}
     new_strings.append(possible_message)
   return new_strings
 
@@ -546,15 +566,13 @@ def shared_key_brute_force_post():
     possible_decrypted_messages = shared_key_brute_force(message);
     end_time = time.time()
     decrypt_time = end_time - start_time
-
-    def isolate_messages(n):
-      return n['message']
-
+    
     messages_only = list(map(isolate_messages, possible_decrypted_messages))
     most_likely_indexes = find_spaces(messages_only, True, 5)
     most_likely_messages = []
     for index in most_likely_indexes:
       most_likely_messages.append(possible_decrypted_messages[index])
+      
     return render_template(
       "shared_key_brute_force_post.html",
       message = message,
@@ -719,9 +737,19 @@ def public_key_brute_force_post():
   if message:
     start_time = time.time()
     possible_decrypted_messages = public_key_brute_force(message);
-    print(possible_decrypted_messages)
     end_time = time.time()
     decrypt_time = end_time - start_time
+
+    # Isolate messages
+    messages_only = list(map(isolate_messages, possible_decrypted_messages))
+    
+    # Identify valid messages
+    for index, message in enumerate(messages_only, start=0):
+      if message == "Error: Invalid message":
+        possible_decrypted_messages[index]['valid'] = False
+      else:
+        possible_decrypted_messages[index]['valid'] = True
+        
     return render_template(
       "public_key_brute_force_post.html",
       possible_decrypted_messages = possible_decrypted_messages,

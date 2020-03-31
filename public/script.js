@@ -22,6 +22,27 @@ if (bestGuessButton){
   });
 }
 
+
+// * * * * * * * * * *
+// Remove Invalid Messages
+// on brute force decrypt
+// * * * * * * * * * *
+
+var removeInvalidButton = document.getElementById('remove-error-button');
+var invalidMessages = document.getElementsByClassName('invalid-message');
+
+if (removeInvalidButton) {
+  removeInvalidButton.addEventListener('click', function() {
+    removeInvalidButton.style.display = 'none';
+    for (var i = 0; i < invalidMessages.length - 1; i++) {
+      var message = invalidMessages[i];
+      message.style.display = 'none';
+    }
+  })
+}
+
+
+
 // * * * * * * * * * *
 // Generate Keys:
 // * * * * * * * * * *
