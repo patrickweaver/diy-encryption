@@ -34,7 +34,7 @@ var invalidMessages = document.getElementsByClassName('invalid-message');
 if (removeInvalidButton) {
   removeInvalidButton.addEventListener('click', function() {
     removeInvalidButton.style.display = 'none';
-    for (var i = 0; i < invalidMessages.length - 1; i++) {
+    for (var i = 0; i < invalidMessages.length; i++) {
       var message = invalidMessages[i];
       message.style.display = 'none';
     }
