@@ -183,6 +183,10 @@ ol.messages {
   list-style-position: inside;
 }
 
+.wrap-message {
+  overflow-wrap: break-word;
+}
+
 
 .number-list > li {
   width: 40px;
