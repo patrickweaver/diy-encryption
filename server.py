@@ -744,14 +744,15 @@ def public_key_brute_force_post():
     messages_only = list(map(isolate_messages, possible_decrypted_messages))
     
     # Identify valid messages
-    for index, message in enumerate(messages_only, start=0):
-      if message == "Error: Invalid message":
+    for index, decrypted_message in enumerate(messages_only, start=0):
+      if decrypted_message == "Error: Invalid message":
         possible_decrypted_messages[index]['valid'] = False
       else:
         possible_decrypted_messages[index]['valid'] = True
         
     return render_template(
       "public_key_brute_force_post.html",
+      message = message,
       possible_decrypted_messages = possible_decrypted_messages,
       possible_decrypted_messages_length = len(possible_decrypted_messages),
       decrypt_time = round(decrypt_time, 5),
