@@ -1,16 +1,18 @@
 {% extends "offset.html" %}
 {% block body %} 
 
-  <h3>
-    Encrypted Message with offset {{ offset }}:
-  </h3>
-  <textarea id="encrypted-message">{{ encrypted_message }}</textarea>
-  <h3>
-    Original Message:
-  </h3>
-  <p id="message">
-    {{ message }}
-  </p>
+  <div class="message-container">
+    <h3>
+      Encrypted Message with offset {{ offset }}:
+    </h3>
+    <textarea id="encrypted-message">{{ encrypted_message }}</textarea>
+    <h3>
+      Original Message:
+    </h3>
+    <p id="message">
+      {{ message }}
+    </p>
+  </div>
 
 {% endblock %}
 

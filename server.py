@@ -118,7 +118,7 @@ def shared_key_encrypt(my_string, my_key):
     if ord(c) > 126:
       return "Error"
   count = 0
-  direction = 0
+  #direction = 0
   key_length = len(my_key)
   for c in clean_string:
     int_c = ord(c)
@@ -127,19 +127,20 @@ def shared_key_encrypt(my_string, my_key):
     if int_c < 32:
       return "Error"
     offset = ord(my_key[count])
-    if direction == 0:
-      new_int_c = int_c + offset
-    else:
-      new_int_c = int_c - offset
-    direction = direction * -1 + 1
+    #if direction == 0:
+    #  new_int_c = int_c + offset
+    #else:
+    #  new_int_c = int_c - offset
+    new_int_c = int_c + offset
+    #direction = direction * -1 + 1
     if new_int_c > 126:
       new_int_c = new_int_c - 95
       if new_int_c > 126:
         new_int_c = new_int_c - 95
-    if new_int_c < 32:
-      new_int_c = new_int_c + 95
-      if new_int_c < 32:
-        new_int_c = new_int_c + 95
+    #if new_int_c < 32:
+    #  new_int_c = new_int_c + 95
+    #  if new_int_c < 32:
+    #    new_int_c = new_int_c + 95
     new_char = chr(new_int_c)
     new_string += new_char
     
@@ -154,7 +155,7 @@ def shared_key_decrypt(my_encoded_string, my_key):
     if ord(c) > 126:
       return "Error"
   count = 0
-  direction = 0
+  #direction = 0
   key_length = len(my_key)
   for c in my_encoded_string:
     int_c = ord(c)
@@ -163,19 +164,20 @@ def shared_key_decrypt(my_encoded_string, my_key):
     if int_c < 32:
       return "Error"
     offset = ord(my_key[count])
-    if direction == 0:
-      new_int_c = int_c - offset
-    else:
-      new_int_c = int_c + offset
-    direction = direction * -1 + 1
+    #if direction == 0:
+    #  new_int_c = int_c - offset
+    #else:
+    #  new_int_c = int_c + offset
+    new_int_c = int_c - offset
+    #direction = direction * -1 + 1
     if new_int_c < 32:
       new_int_c = new_int_c + 95
       if new_int_c < 32:
         new_int_c = new_int_c + 95
-    if new_int_c > 126:
-      new_int_c = new_int_c - 95
-      if new_int_c > 126:
-        new_int_c = new_int_c - 95
+    #if new_int_c > 126:
+    #  new_int_c = new_int_c - 95
+    #  if new_int_c > 126:
+    #    new_int_c = new_int_c - 95
     new_char = chr(new_int_c)
     new_string += new_char
     
@@ -216,7 +218,7 @@ def for_each_place(beginnings_of_keys):
 # **  Public Key **
 # This algorithm encrypts a message by using public keys generated on the front end. The ASCII code of each character in the message is converted into a number using the public key. To decrypt the message, the number is converted back into an ASCII code using the private key.
 # - - - - - - - - - - - - - - - - 
-primes = [11, 13, 17, 19, 23]
+primes = [11, 13, 17, 19, 23, 29]
 
 def gcd(a, b):
     while b != 0:

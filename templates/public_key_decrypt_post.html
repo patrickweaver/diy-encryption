@@ -1,17 +1,19 @@
 {% extends "public-key.html" %}
 {% block body %} 
 
-  <h3>
-    Decrypted Message with private key {{ private_keys }}:
-  </h3>
-  <p id="decrypted-message">
-    {{ decrypted_message }}
-  </p>
-  <h3>
-    Encrypted Message:
-  </h3>
-  <p id="message">
-    {{ encrypted_message }}
-  </p>
+  <div class="message-container">
+    <h3>
+      Decrypted Message with private key {{ private_keys }}:
+    </h3>
+    <p id="decrypted-message">
+      {{ decrypted_message }}
+    </p>
+    <h3>
+      Encrypted Message:
+    </h3>
+    <p id="message">
+      {{ encrypted_message }}
+    </p>
+  </div>
 
 {% endblock %}
