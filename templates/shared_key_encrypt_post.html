@@ -1,17 +1,18 @@
 {% extends "shared-key.html" %}
 {% block body %} 
 
-  <h3>
-    Encrypted Message with key {{ key }}:
-  </h3>
-  <textarea id="encrypted-message">{{ encrypted_message }}</textarea>
-  <h3>
-    Original Message:
-  </h3>
-  <p id="message">
-    {{ message }}
-  </p>
-  <br>
+  <div class="message-container">
+    <h3>
+      Encrypted Message with key {{ key }}:
+    </h3>
+    <textarea id="encrypted-message">{{ encrypted_message }}</textarea>
+    <h3>
+      Original Message:
+    </h3>
+    <p id="message">
+      {{ message }}
+    </p>
+  </div>
 
 
 {% endblock %}

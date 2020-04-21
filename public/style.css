@@ -114,7 +114,7 @@ hr {
   display: inline-block;
 }
 
-form {
+form, .message-container {
   margin-bottom: 25px;
   padding: 15px;
   background-color: #D9CCF7;
