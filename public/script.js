@@ -237,3 +237,15 @@ if (generateKeys) {
  
   });
 }
+
+
+/* Simple Offset Generator */
+
+var offsetSlider = document.getElementById("offset-range");
+var output = document.getElementById("simple-offset-label");
+output.innerHTML = offsetSlider .value; // Display the default slider value
+
+// Update the current slider value (each time you drag the slider handle)
+offsetSlider.oninput = function() {
+  output.innerHTML = this.value;
+}
