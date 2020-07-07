@@ -333,6 +333,17 @@ def hello():
 # - - - - - - - - - - - - - - - -
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+# Simple 
+# Offset:
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+@app.route("/simple-offset/", methods=["GET"], strict_slashes=False)
+def simple_offset_generator():
+  return render_template(
+    "simple_offset_generator.html"
+  )
+
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 # Offset
 # Encrypt:
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~

@@ -237,3 +237,23 @@ if (generateKeys) {
  
   });
 }
+
+
+/* Simple Offset Generator */
+
+var offsetSlider = document.getElementById("offset-range");
+var output = document.getElementById("simple-offset-label");
+var decoderInside = document.getElementById("decoder-inside");
+
+
+if (offsetSlider && output) {
+  output.innerHTML = offsetSlider .value; // Display the default slider value
+  
+  // Update the current slider value (each time you drag the slider handle)
+  offsetSlider.oninput = function() {
+    output.innerHTML = this.value;
+    var rotation = "rotate(" + (-360 / 26) * parseInt(this.value) + "deg)";
+    console.log("rotation:", rotation);
+    decoderInside.style.transform = rotation;
+  }
+}
