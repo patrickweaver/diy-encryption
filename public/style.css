@@ -257,9 +257,34 @@ div#error {
   margin-bottom: 0px;
 }
 
-#slider-label {
+#slider-and-label-container {
+  z-index: 10;
+  position: relative;
+  width: 100%;
+}
+
+.slider-label {
   text-align: justify;
   width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 0;
+}
+
+.slider-label .slider-label-offset-number-2Da {
+  font-size: 50%;
+}
+
+.slider-label span {
+  font-family: monospace;
+  font-size: 75%;
+}
+
+.slide-container {
+  margin: 0 15px;
+  z-index: 5;
+  position: absolute;
+  width: Calc(100% - 30px);
 }
 
 #simple-offset-generator {
@@ -277,4 +302,10 @@ div#error {
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 1;
+  -webkit-transition: 1s ease-in-out;
+  -moz-transition: 1s ease-in-out;
+  -o-transition: 1s ease-in-out;
+  transition: 1s ease-in-out;
 }
+
