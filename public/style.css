@@ -41,6 +41,16 @@ a:link, a:visited, a:hover, a:active  {
 
 #main-header a {
   color: black;
+  padding: 10px 20px;
+  border: 2px solid black;
+  background-color: #fBf8ff;
+  border-radius: 5px; 
+}
+
+#main-header a:hover {
+  text-decoration: underline; 
+  background-color: #f5f5ff;
+  border: 2px solid #4F4F4F;
 }
 
 
@@ -296,10 +306,13 @@ div#error {
 }
 
 #decoder-outside {
+  background-color: white;
+  margin-top: 2em;
 }
 
 #decoder-inside {
   position: absolute;
+  margin-top: 2em;
   top: 0;
   left: 0;
   z-index: 1;
@@ -307,5 +320,20 @@ div#error {
   -moz-transition: 1s ease-in-out;
   -o-transition: 1s ease-in-out;
   transition: 1s ease-in-out;
+}
+
+#device-size-warning {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  #device-size-warning {
+    display: block;
+    border: 2px solid red;
+    background-color: white;
+    font-size: 125%;
+    padding: 10px;
+    margin: 10px;
+  }
 }
 
