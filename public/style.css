@@ -267,6 +267,11 @@ div#error {
   margin-bottom: 0px;
 }
 
+#explanation {
+  padding: .5em 10px;
+  background-color: #DFDFDF;
+}
+
 #slider-and-label-container {
   z-index: 10;
   position: relative;
