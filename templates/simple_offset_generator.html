@@ -1,6 +1,21 @@
 {% extends "wide_layout.html" %}
 {% block menu %}
 
+<div id="device-size-warning">
+  Try using this page in landscape mode on your device or on a device with a larger screen.
+</div>
+
+<div id="explanation">
+  <p>
+    Move the slider below to an offset number between 1 and 25. Then use the rings of letters below to encrypt your message.</p>
+  <p>
+    To encrypt, set your chosen offset number, then find each letter of your message in the outer ring. The encrypted version of your message will contain the corresponding letter in the inner ring.
+  </p>
+  <p>
+    To decrypt, set your chosen offset number, then find each letter of your encrypted message in the inner ring. The original version of your message will contain the corresonding letter in the outer ring.
+  </p>
+</div>
+
 <div id="slider-and-label-container">
   <h2>
     Offset: <span id="simple-offset-label">0</span>
@@ -39,8 +54,8 @@
 </div>
 
 <div id="simple-offset-generator">
-  <img id="decoder-outside" src="https://cdn.glitch.com/4028320f-a788-4451-8232-1f330e96ca4a%2FDecoderOutsideTransparent.png?v=1594149293704">
-  <img id="decoder-inside" src="https://cdn.glitch.com/4028320f-a788-4451-8232-1f330e96ca4a%2FDecoderInsideTransparent.png?v=1594149297201">
+  <img id="decoder-outside" src="/images/decoder-outside.png">
+  <img id="decoder-inside" src="/images/decoder-inside.png">
   
 </div>
 
